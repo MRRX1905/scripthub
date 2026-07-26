@@ -61,7 +61,7 @@ export function ExecutorManager({
         status: "online",
         platforms: [],
         platformText: "",
-        compatibleScripts: 0,
+        uncPercentage: 0,
         description: "",
         updatedAt: new Date().toISOString(),
         isNew: true,
@@ -114,7 +114,10 @@ export function ExecutorManager({
         name,
         status: draft.status,
         platforms,
-        compatibleScripts: Math.max(0, Number(draft.compatibleScripts) || 0),
+        uncPercentage: Math.min(
+          100,
+          Math.max(0, Number(draft.uncPercentage) || 0),
+        ),
         description,
         updatedAt: new Date().toISOString(),
       });
@@ -214,19 +217,23 @@ export function ExecutorManager({
                 </select>
               </label>
               <label>
-                Jumlah skrip
+                UNC (%)
                 <input
                   type="number"
                   min="0"
-                  value={executor.compatibleScripts}
+                  max="100"
+                  value={executor.uncPercentage}
                   onChange={(event) =>
                     update(
                       executor.clientKey,
-                      "compatibleScripts",
+                      "uncPercentage",
                       Number(event.target.value),
                     )
                   }
                 />
+                <small className="field-hint">
+                  Persentase kompatibilitas 0–100.
+                </small>
               </label>
             </div>
 

@@ -142,7 +142,7 @@
       "name": "Fluxus",
       "status": "online",
       "platforms": ["Android", "Windows"],
-      "compatibleScripts": 1248,
+      "uncPercentage": 100,
       "description": "Eksekutor ringan dengan kompatibilitas luas dan pembaruan yang konsisten.",
       "updatedAt": "2026-07-26T09:15:00+07:00"
     },
@@ -151,7 +151,7 @@
       "name": "Delta",
       "status": "updated",
       "platforms": ["Android"],
-      "compatibleScripts": 1197,
+      "uncPercentage": 100,
       "description": "Eksekutor Android dengan alur instalasi ringkas dan dukungan skrip populer.",
       "updatedAt": "2026-07-26T08:40:00+07:00"
     },
@@ -160,7 +160,7 @@
       "name": "Hydrogen",
       "status": "maintenance",
       "platforms": ["macOS", "Android"],
-      "compatibleScripts": 932,
+      "uncPercentage": 100,
       "description": "Eksekutor lintas perangkat yang sedang menjalani pemeliharaan kompatibilitas.",
       "updatedAt": "2026-07-26T06:20:00+07:00"
     }

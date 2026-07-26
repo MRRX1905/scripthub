@@ -40,7 +40,7 @@ interface ExecutorRow {
   name: string;
   status: ExecutorItem["status"];
   platforms: string[];
-  compatible_scripts: number;
+  unc_percentage: number;
   description: string;
   updated_at: string;
 }
@@ -76,7 +76,7 @@ const toExecutor = (row: ExecutorRow): ExecutorItem => ({
   name: row.name,
   status: row.status,
   platforms: row.platforms ?? [],
-  compatibleScripts: Number(row.compatible_scripts),
+  uncPercentage: Number(row.unc_percentage),
   description: row.description,
   updatedAt: row.updated_at,
 });
@@ -109,7 +109,7 @@ const toExecutorRow = (executor: ExecutorItem): ExecutorRow => ({
   name: executor.name,
   status: executor.status,
   platforms: executor.platforms,
-  compatible_scripts: executor.compatibleScripts,
+  unc_percentage: executor.uncPercentage,
   description: executor.description,
   updated_at: executor.updatedAt,
 });
@@ -174,7 +174,7 @@ export async function saveExecutor(executor: ExecutorItem) {
     p_name: row.name,
     p_status: row.status,
     p_platforms: row.platforms,
-    p_compatible_scripts: row.compatible_scripts,
+    p_unc_percentage: row.unc_percentage,
     p_description: row.description,
   });
 

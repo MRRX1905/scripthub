@@ -26,7 +26,7 @@ export interface ExecutorItem {
   name: string;
   status: ExecutorState;
   platforms: string[];
-  compatibleScripts: number;
+  uncPercentage: number;
   description: string;
   updatedAt: string;
 }

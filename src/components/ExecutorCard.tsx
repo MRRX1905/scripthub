@@ -3,7 +3,7 @@ import {
   RefreshCw,
   SquareTerminal,
 } from "lucide-react";
-import { formatDate, formatNumber } from "../lib/format";
+import { formatDate } from "../lib/format";
 import type { ExecutorItem } from "../types";
 import { ExecutorStatusBadge } from "./StatusBadge";
 
@@ -25,8 +25,8 @@ export function ExecutorCard({ executor, compact = false }: ExecutorCardProps) {
         </div>
         <ExecutorStatusBadge value={executor.status} />
         <div className="executor-card__count">
-          <span>Skrip kompatibel</span>
-          <strong>{formatNumber(executor.compatibleScripts)}</strong>
+          <span>UNC</span>
+          <strong>{executor.uncPercentage}%</strong>
         </div>
       </article>
     );
@@ -53,8 +53,8 @@ export function ExecutorCard({ executor, compact = false }: ExecutorCardProps) {
           <dd>{executor.platforms.join(", ")}</dd>
         </div>
         <div>
-          <dt>Jumlah skrip</dt>
-          <dd>{formatNumber(executor.compatibleScripts)}</dd>
+          <dt>UNC</dt>
+          <dd>{executor.uncPercentage}%</dd>
         </div>
         <div>
           <dt>
