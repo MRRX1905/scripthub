@@ -1,0 +1,387 @@
+<!DOCTYPE html><html class="dark" lang="id"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Profil Pengguna - ScriptHub</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Lexend:wght@600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "status-verified": "#3B82F6",
+                        "on-tertiary-fixed": "#001f26",
+                        "on-tertiary-fixed-variant": "#004e5c",
+                        "outline-variant": "#4d4354",
+                        "secondary": "#adc6ff",
+                        "primary": "#ddb7ff",
+                        "surface": "#0b1326",
+                        "tertiary-container": "#009eb9",
+                        "surface-variant": "#2d3449",
+                        "tertiary-fixed": "#acedff",
+                        "status-script-hub": "#A855F7",
+                        "surface-container-highest": "#2d3449",
+                        "on-secondary-fixed-variant": "#004395",
+                        "surface-card": "#1E293B",
+                        "on-secondary-container": "#e6ecff",
+                        "on-error-container": "#ffdad6",
+                        "on-secondary": "#002e6a",
+                        "status-key-required": "#F59E0B",
+                        "on-primary-fixed-variant": "#6900b3",
+                        "tertiary-fixed-dim": "#4cd7f6",
+                        "status-no-key": "#22C55E",
+                        "on-secondary-fixed": "#001a42",
+                        "primary-fixed": "#f0dbff",
+                        "surface-container-high": "#222a3d",
+                        "on-surface": "#dae2fd",
+                        "surface-container-low": "#131b2e",
+                        "surface-dim": "#0b1326",
+                        "tertiary": "#4cd7f6",
+                        "on-surface-variant": "#cfc2d6",
+                        "on-tertiary": "#003640",
+                        "background": "#0b1326",
+                        "surface-container": "#171f33",
+                        "primary-fixed-dim": "#ddb7ff",
+                        "surface-container-lowest": "#060e20",
+                        "secondary-fixed-dim": "#adc6ff",
+                        "outline": "#988d9f",
+                        "primary-container": "#b76dff",
+                        "error-container": "#93000a",
+                        "surface-tint": "#ddb7ff",
+                        "secondary-container": "#0566d9",
+                        "on-primary-fixed": "#2c0051",
+                        "on-primary": "#490080",
+                        "on-primary-container": "#400071",
+                        "inverse-primary": "#842bd2",
+                        "on-tertiary-container": "#002f38",
+                        "on-error": "#690005",
+                        "inverse-on-surface": "#283044",
+                        "on-background": "#dae2fd",
+                        "surface-bright": "#31394d",
+                        "secondary-fixed": "#d8e2ff",
+                        "inverse-surface": "#dae2fd",
+                        "error": "#ffb4ab"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "margin-mobile": "1rem",
+                        "container-max": "1280px",
+                        "margin-desktop": "2rem",
+                        "gutter": "1.5rem"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-xl": ["Lexend"],
+                        "headline-md": ["Lexend"],
+                        "headline-lg-mobile": ["Lexend"],
+                        "body-sm": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg": ["Lexend"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-xl": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        .glow-hover:hover {
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
+        }
+        
+        .text-gradient {
+            background: linear-gradient(to right, #A855F7, #3B82F6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .bg-gradient-primary {
+            background: linear-gradient(to right, #A855F7, #3B82F6);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md antialiased pt-16">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-surface/70 backdrop-blur-xl border-b border-outline-variant/30 shadow-sm transition-all duration-300">
+<div class="flex justify-between items-center h-16 px-gutter max-w-container-max mx-auto">
+<div class="flex items-center gap-8">
+<a class="text-headline-md font-headline-md font-bold text-primary tracking-tight" href="#">ScriptHub</a>
+<div class="hidden md:flex gap-6">
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Beranda</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Skrip</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Eksekutor</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Game</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden md:flex items-center gap-2 mr-2">
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors rounded-full hover:bg-surface-variant/50">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors rounded-full hover:bg-surface-variant/50">
+<span class="material-symbols-outlined text-[20px]">language</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors rounded-full hover:bg-surface-variant/50">
+<span class="material-symbols-outlined text-[20px]">dark_mode</span>
+</button>
+</div>
+<div class="relative hidden lg:block mr-2">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">search</span>
+<input class="bg-surface-container-low border border-outline-variant/30 text-on-surface text-body-sm rounded-full pl-9 pr-4 py-1.5 focus:outline-none focus:border-tertiary focus:ring-1 focus:ring-tertiary/50 transition-all w-48 focus:w-64" placeholder="Cari skrip..." type="text">
+</div>
+<button class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors">Login</button>
+<button class="font-label-md text-label-md bg-gradient-primary text-white px-4 py-1.5 rounded-full glow-hover transition-all scale-95 active:scale-90 flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">upload</span>
+                    Unggah
+                </button>
+</div>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="flex-grow w-full max-w-container-max mx-auto px-gutter py-margin-desktop space-y-8">
+<!-- Profile Header -->
+<section class="relative bg-surface-card border border-outline-variant/30 rounded-xl overflow-hidden shadow-lg">
+<!-- Cover Image -->
+<div class="h-48 md:h-64 w-full relative">
+<div class="bg-cover bg-center w-full h-full opacity-60" data-alt="A futuristic, cyberpunk-inspired abstract digital art cover image featuring glowing circuit board patterns in vibrant purple and electric blue against a deep dark background. The lighting is neon-infused, creating a high-tech gaming aesthetic that feels modern and energetic." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA4EbU6UTlyiIQl1UHK9BDU2D4BsNiZcALKTso6XiTnuTlxESI9SIweA0wmsn0YyLvESpUNtdRwUHcL2I7IBa_ZJyVXOyJjNnuHorOo47SJDSqsh9GJgwKg6EAkInADVjjxKKDw9pFRHpmD_iNgHmdoTB9w0-3NMIxmh9HAlwI69JFCV3UuDceieYunGV6-EKWUVGjMn94BB5JoZpChqBBwThbvgRnDhb1yJN347C6KxGObXeAp0HImmec3wPpVPoH9ISfmDOfeDT8E')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-card to-transparent"></div>
+</div>
+<div class="px-6 md:px-10 pb-8 relative -mt-16 sm:-mt-20 flex flex-col sm:flex-row gap-6 items-start sm:items-end">
+<!-- Avatar -->
+<div class="relative group">
+<div class="w-24 h-24 sm:w-32 sm:h-32 rounded-xl border-4 border-surface-card overflow-hidden bg-surface-container relative z-10 shadow-xl glow-hover transition-all">
+<img class="w-full h-full object-cover" data-alt="A stylized, neon-lit avatar of a cybernetic gamer character with a glowing visor, rendered in high detail with strong purple and blue accents, set against a dark tech background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCvKnXJuzJ4IGuO8ZtQwDD5VGuf3iNaw-tBMiX2i6zd1QyLyRhhntMIOXzCFajhpp2LDnWlRhBsrh7yKcsy3cgj2LCuW4Tl6W9y4F_j9z9I1_iCnvqPIfvo50AP6ZMZ8BkupvDwbMfpSPQ-gD4qLht69rO5XKS2t-1aeGhpaO5kWoAKgZOsswgtJ65zZfMMCHXphoMVKRLq_nsdzadsba7vD4-TdzP9mvrQiNPo8HDGaXrAsPmEfPx0sdSTyaoARF1bD-e1G98bkjjS">
+</div>
+<button class="absolute bottom-2 right-2 z-20 bg-surface-variant p-1.5 rounded-full border border-outline-variant/50 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-primary hover:text-surface">
+<span class="material-symbols-outlined text-[16px]">edit</span>
+</button>
+</div>
+<!-- Info -->
+<div class="flex-grow flex flex-col gap-2 pt-2 sm:pt-0">
+<div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
+<div>
+<h1 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface font-bold flex items-center gap-2">
+                                VoidRunner_99
+                                <span class="material-symbols-outlined fill text-status-verified text-[24px]" title="Terverifikasi">verified</span>
+</h1>
+<p class="font-body-md text-body-md text-on-surface-variant flex items-center gap-2 mt-1">
+<span class="material-symbols-outlined text-[16px]">terminal</span>
+                                LUA Scripter &amp; Reverse Engineer
+                            </p>
+</div>
+<div class="flex gap-3 mt-2 sm:mt-0">
+<button class="font-label-md text-label-md bg-transparent border border-status-verified text-status-verified hover:bg-status-verified/10 px-6 py-2 rounded-lg transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">person_add</span>
+                                Follow
+                            </button>
+<button class="font-label-md text-label-md bg-surface-variant hover:bg-surface-variant/80 border border-outline-variant/30 text-on-surface px-4 py-2 rounded-lg transition-colors">
+<span class="material-symbols-outlined text-[18px]">share</span>
+</button>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant max-w-2xl mt-2 line-clamp-2">
+                        Membangun skrip performa tinggi untuk komunitas. Spesialisasi dalam optimasi memori dan bypass keamanan tingkat lanjut. DM untuk permintaan khusus.
+                    </p>
+<!-- Stats -->
+<div class="flex gap-6 mt-4 pt-4 border-t border-outline-variant/20">
+<div class="flex flex-col">
+<span class="font-headline-md text-headline-md text-primary font-bold">142</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Total Upload</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-md text-headline-md text-on-surface font-bold">12.5K</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Total Likes</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-md text-headline-md text-on-surface font-bold">3.2K</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Followers</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Tabs & Content -->
+<section class="flex flex-col gap-6">
+<!-- Tabs -->
+<div class="flex gap-8 border-b border-outline-variant/20 px-2">
+<button class="font-label-md text-label-md text-tertiary border-b-2 border-tertiary pb-3 flex items-center gap-2 transition-colors">
+<span class="material-symbols-outlined text-[18px]">code_blocks</span>
+                    Skrip Saya
+                </button>
+<button class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface pb-3 flex items-center gap-2 transition-colors">
+<span class="material-symbols-outlined text-[18px]">bookmark</span>
+                    Bookmark
+                </button>
+<button class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface pb-3 flex items-center gap-2 transition-colors">
+<span class="material-symbols-outlined text-[18px]">history</span>
+                    Aktivitas
+                </button>
+</div>
+<!-- Filters & Sort -->
+<div class="flex justify-between items-center">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">search</span>
+<input class="bg-surface-container border border-outline-variant/30 text-on-surface text-body-sm rounded-lg pl-9 pr-4 py-2 focus:outline-none focus:border-tertiary focus:ring-1 focus:ring-tertiary/50 transition-all w-full sm:w-64" placeholder="Cari di profil..." type="text">
+</div>
+<div class="flex gap-2">
+<button class="bg-surface-container border border-outline-variant/30 text-on-surface-variant hover:text-on-surface p-2 rounded-lg transition-colors flex items-center gap-1 font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[18px]">filter_list</span>
+<span class="hidden sm:inline">Filter</span>
+</button>
+</div>
+</div>
+<!-- Scripts Grid (Bento/Card Style) -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Card 1 -->
+<div class="bg-surface-card border border-outline-variant/30 rounded-xl p-5 hover:border-primary/50 transition-all duration-300 group hover:-translate-y-1 flex flex-col h-full shadow-md relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-1 bg-gradient-primary opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="flex justify-between items-start mb-4">
+<div class="flex gap-2 items-center">
+<span class="bg-status-no-key/20 text-status-no-key font-label-sm text-[10px] px-2 py-0.5 rounded-full border border-status-no-key/30 uppercase tracking-wider">Tanpa Key</span>
+<span class="bg-surface-variant text-on-surface-variant font-label-sm text-[10px] px-2 py-0.5 rounded-full border border-outline-variant/30">v2.4.1</span>
+</div>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+<h3 class="font-headline-md text-body-lg font-semibold text-on-surface mb-2 group-hover:text-primary transition-colors">Phantom Hub [Auto Farm]</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-4 flex-grow line-clamp-2">Skrip auto farm terbaik untuk game RPG favorit Anda. Dilengkapi dengan auto quest, kill aura, dan ESP.</p>
+<div class="flex items-center gap-4 mt-auto pt-4 border-t border-outline-variant/20">
+<div class="flex items-center gap-1 text-on-surface-variant text-body-sm">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+<span>4.2K</span>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant text-body-sm">
+<span class="material-symbols-outlined text-[16px]">favorite</span>
+<span>892</span>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant text-body-sm ml-auto">
+<span class="material-symbols-outlined text-[16px]">update</span>
+<span>2h ago</span>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-card border border-outline-variant/30 rounded-xl p-5 hover:border-primary/50 transition-all duration-300 group hover:-translate-y-1 flex flex-col h-full shadow-md relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-1 bg-gradient-primary opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="flex justify-between items-start mb-4">
+<div class="flex gap-2 items-center">
+<span class="bg-status-key-required/20 text-status-key-required font-label-sm text-[10px] px-2 py-0.5 rounded-full border border-status-key-required/30 uppercase tracking-wider">Butuh Key</span>
+<span class="bg-status-verified/20 text-status-verified font-label-sm text-[10px] px-2 py-0.5 rounded-full border border-status-verified/30 uppercase tracking-wider flex items-center gap-1"><span class="material-symbols-outlined text-[12px] fill">verified</span> Terverifikasi</span>
+</div>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+<h3 class="font-headline-md text-body-lg font-semibold text-on-surface mb-2 group-hover:text-primary transition-colors">Ninja Legends Mastery</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-4 flex-grow line-clamp-2">Auto swing, auto sell, dan teleport ESP. Menggunakan sistem key harian melalui linkvertise.</p>
+<div class="flex items-center gap-4 mt-auto pt-4 border-t border-outline-variant/20">
+<div class="flex items-center gap-1 text-on-surface-variant text-body-sm">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+<span>12K</span>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant text-body-sm">
+<span class="material-symbols-outlined text-[16px]">favorite</span>
+<span>3.1K</span>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant text-body-sm ml-auto">
+<span class="material-symbols-outlined text-[16px]">update</span>
+<span>1d ago</span>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-card border border-outline-variant/30 rounded-xl p-5 hover:border-primary/50 transition-all duration-300 group hover:-translate-y-1 flex flex-col h-full shadow-md relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-1 bg-gradient-primary opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="flex justify-between items-start mb-4">
+<div class="flex gap-2 items-center">
+<span class="bg-status-no-key/20 text-status-no-key font-label-sm text-[10px] px-2 py-0.5 rounded-full border border-status-no-key/30 uppercase tracking-wider">Tanpa Key</span>
+</div>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+<h3 class="font-headline-md text-body-lg font-semibold text-on-surface mb-2 group-hover:text-primary transition-colors">FPS Boost Utils</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-4 flex-grow line-clamp-2">Kumpulan fungsi utilitas ringan untuk menghapus tekstur, menonaktifkan bayangan, dan meningkatkan frame rate secara signifikan.</p>
+<div class="flex items-center gap-4 mt-auto pt-4 border-t border-outline-variant/20">
+<div class="flex items-center gap-1 text-on-surface-variant text-body-sm">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+<span>8.5K</span>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant text-body-sm">
+<span class="material-symbols-outlined text-[16px]">favorite</span>
+<span>1.2K</span>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant text-body-sm ml-auto">
+<span class="material-symbols-outlined text-[16px]">update</span>
+<span>3d ago</span>
+</div>
+</div>
+</div>
+</div>
+<div class="flex justify-center mt-4">
+<button class="font-label-md text-label-md text-on-surface-variant hover:text-primary border border-outline-variant/30 hover:border-primary/50 px-6 py-2 rounded-full transition-all">Muat Lebih Banyak</button>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest border-t border-outline-variant/20 mt-auto">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter px-gutter max-w-container-max mx-auto py-margin-desktop">
+<div class="col-span-1 md:col-span-1 flex flex-col gap-4">
+<span class="text-headline-md font-headline-md text-primary font-bold">ScriptHub</span>
+<p class="font-body-sm text-body-sm text-secondary opacity-80">Repositori skrip premium untuk komunitas gamer. Performa tinggi, aman, dan terpercaya.</p>
+</div>
+<div class="col-span-1 md:col-span-3 grid grid-cols-2 sm:grid-cols-3 gap-8">
+<div class="flex flex-col gap-3">
+<span class="font-label-md text-label-md text-primary font-bold">Perusahaan</span>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-tertiary transition-colors opacity-80 hover:opacity-100" href="#">Tentang Kami</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-tertiary transition-colors opacity-80 hover:opacity-100" href="#">Hubungi Kami</a>
+</div>
+<div class="flex flex-col gap-3">
+<span class="font-label-md text-label-md text-primary font-bold">Legal</span>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-tertiary transition-colors opacity-80 hover:opacity-100" href="#">Kebijakan Privasi</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-tertiary transition-colors opacity-80 hover:opacity-100" href="#">Ketentuan Layanan</a>
+</div>
+<div class="flex flex-col gap-3">
+<span class="font-label-md text-label-md text-primary font-bold">Komunitas</span>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-tertiary transition-colors opacity-80 hover:opacity-100 flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-[16px]">forum</span> Discord
+                    </a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-tertiary transition-colors opacity-80 hover:opacity-100 flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-[16px]">send</span> Telegram
+                    </a>
+</div>
+</div>
+</div>
+<div class="border-t border-outline-variant/10 py-4 text-center">
+<span class="font-body-sm text-body-sm text-on-surface-variant opacity-60">© 2024 ScriptHub Indonesia. Semua hak dilindungi.</span>
+</div>
+</footer>
+</body></html>

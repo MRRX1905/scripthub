@@ -1,0 +1,316 @@
+<!DOCTYPE html><html class="dark" lang="id"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Eksekutor Game Populer - ScriptHub</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "status-verified": "#3B82F6",
+                        "on-tertiary-fixed": "#001f26",
+                        "on-tertiary-fixed-variant": "#004e5c",
+                        "outline-variant": "#4d4354",
+                        "secondary": "#adc6ff",
+                        "primary": "#ddb7ff",
+                        "surface": "#0b1326",
+                        "tertiary-container": "#009eb9",
+                        "surface-variant": "#2d3449",
+                        "tertiary-fixed": "#acedff",
+                        "status-script-hub": "#A855F7",
+                        "surface-container-highest": "#2d3449",
+                        "on-secondary-fixed-variant": "#004395",
+                        "surface-card": "#1E293B",
+                        "on-secondary-container": "#e6ecff",
+                        "on-error-container": "#ffdad6",
+                        "on-secondary": "#002e6a",
+                        "status-key-required": "#F59E0B",
+                        "on-primary-fixed-variant": "#6900b3",
+                        "tertiary-fixed-dim": "#4cd7f6",
+                        "status-no-key": "#22C55E",
+                        "on-secondary-fixed": "#001a42",
+                        "primary-fixed": "#f0dbff",
+                        "surface-container-high": "#222a3d",
+                        "on-surface": "#dae2fd",
+                        "surface-container-low": "#131b2e",
+                        "surface-dim": "#0b1326",
+                        "tertiary": "#4cd7f6",
+                        "on-surface-variant": "#cfc2d6",
+                        "on-tertiary": "#003640",
+                        "background": "#0b1326",
+                        "surface-container": "#171f33",
+                        "primary-fixed-dim": "#ddb7ff",
+                        "surface-container-lowest": "#060e20",
+                        "secondary-fixed-dim": "#adc6ff",
+                        "outline": "#988d9f",
+                        "primary-container": "#b76dff",
+                        "error-container": "#93000a",
+                        "surface-tint": "#ddb7ff",
+                        "secondary-container": "#0566d9",
+                        "on-primary-fixed": "#2c0051",
+                        "on-primary": "#490080",
+                        "on-primary-container": "#400071",
+                        "inverse-primary": "#842bd2",
+                        "on-tertiary-container": "#002f38",
+                        "on-error": "#690005",
+                        "inverse-on-surface": "#283044",
+                        "on-background": "#dae2fd",
+                        "surface-bright": "#31394d",
+                        "secondary-fixed": "#d8e2ff",
+                        "inverse-surface": "#dae2fd",
+                        "error": "#ffb4ab"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "margin-mobile": "1rem",
+                        "container-max": "1280px",
+                        "margin-desktop": "2rem",
+                        "gutter": "1.5rem"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-xl": ["Lexend"],
+                        "headline-md": ["Lexend"],
+                        "headline-lg-mobile": ["Lexend"],
+                        "body-sm": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg": ["Lexend"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-xl": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, h4, h5, h6, .font-lexend { font-family: 'Lexend', sans-serif; }
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid #334155;
+        }
+        .glow-hover:hover {
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.2);
+        }
+        .btn-primary {
+            background: linear-gradient(to right, #A855F7, #3B82F6);
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
+        }
+        .btn-secondary {
+            border: 1px solid #3B82F6;
+            color: #3B82F6;
+            transition: all 0.3s ease;
+        }
+        .btn-secondary:hover {
+            background: rgba(59, 130, 246, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col pt-16">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-surface/70 backdrop-blur-xl border-b border-outline-variant/30 shadow-sm flex justify-between items-center h-16 px-gutter max-w-container-max mx-auto hidden md:flex">
+<div class="flex items-center gap-6">
+<span class="text-headline-md font-headline-md font-bold text-primary">ScriptHub</span>
+<div class="flex gap-4">
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md scale-95 active:scale-90 transition-transform" href="#">Beranda</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md scale-95 active:scale-90 transition-transform" href="#">Skrip</a>
+<a class="text-tertiary border-b-2 border-tertiary pb-1 font-label-md text-label-md scale-95 active:scale-90 transition-transform" href="#">Eksekutor</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md scale-95 active:scale-90 transition-transform" href="#">Game</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex gap-2">
+<button class="text-on-surface-variant hover:text-primary transition-colors scale-95 active:scale-90 transition-transform"><span class="material-symbols-outlined">notifications</span></button>
+<button class="text-on-surface-variant hover:text-primary transition-colors scale-95 active:scale-90 transition-transform"><span class="material-symbols-outlined">language</span></button>
+<button class="text-on-surface-variant hover:text-primary transition-colors scale-95 active:scale-90 transition-transform"><span class="material-symbols-outlined">dark_mode</span></button>
+</div>
+<button class="btn-secondary px-4 py-2 rounded-md font-label-md text-label-md">Login</button>
+<button class="btn-primary px-4 py-2 rounded-md text-white font-label-md text-label-md">Unggah</button>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="flex-grow w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-8">
+<!-- Header Section -->
+<header class="mb-12 text-center md:text-left flex flex-col md:flex-row justify-between items-end gap-6">
+<div>
+<h1 class="text-headline-lg-mobile md:text-headline-xl font-headline-lg-mobile md:font-headline-xl text-primary mb-2">Eksekutor Game Populer</h1>
+<p class="text-body-md font-body-md text-on-surface-variant max-w-2xl">Jelajahi jajaran eksekutor teratas untuk pengalaman gaming tanpa batas. Temukan platform yang paling sesuai dengan kebutuhan skrip Anda dengan pembaruan status real-time.</p>
+</div>
+<div class="w-full md:w-auto">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full md:w-64 bg-surface-container border border-outline-variant rounded-md py-2 pl-10 pr-4 text-body-sm font-body-sm text-on-surface focus:outline-none focus:border-tertiary focus:ring-1 focus:ring-tertiary transition-colors" placeholder="Cari eksekutor..." type="text">
+</div>
+</div>
+</header>
+<!-- Bento Grid for Executors -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Card 1: Fluxus -->
+<div class="glass-panel rounded-xl p-6 flex flex-col h-full glow-hover transition-all">
+<div class="flex items-start justify-between mb-4">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-surface-container rounded-lg flex items-center justify-center border border-outline-variant">
+<img class="w-8 h-8 object-contain" data-alt="A high-tech glowing abstract logo for a gaming software executor, neon purple and blue accents on a dark metallic background, sharp vector style icon, highly detailed digital art." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAboJ7GmREKKXev2n5tYIg4aI1XtJNNw2LncEdQtltcoJERuc1PFFSaqwXyDqW8O7lGCLZnwM817hDC4D48r8d3EOhHilXCchIgVRclIzlcpMdtiZobcXJTdVqISuM54SxRHwxiJ3KO2qkUgDdUdEOpM8jqg0rXwrCX9c62QoK4OBdcgjUqk9vplYjKAB79ISmShYs9Iw6Pxvr5lqi6BtS8YoDI96J_THLH5zZT8Zl8Ut6AAW_Lwnem59kbdh-sZe75E8NrFEV6YUJ">
+</div>
+<div>
+<h3 class="text-headline-md font-headline-md text-on-surface">Fluxus</h3>
+<div class="flex items-center gap-2 mt-1">
+<span class="w-2 h-2 rounded-full bg-status-no-key"></span>
+<span class="text-label-sm font-label-sm text-status-no-key">Online &amp; Active</span>
+</div>
+</div>
+</div>
+</div>
+<p class="text-body-sm font-body-sm text-on-surface-variant mb-6 flex-grow">Eksekutor ringan dengan performa tinggi. Dikenal karena kompatibilitasnya yang luas dan antarmuka yang ramah pengguna. Pilihan utama bagi banyak developer skrip.</p>
+<div class="space-y-4 mb-6">
+<div class="flex items-center justify-between">
+<span class="text-label-sm font-label-sm text-on-surface-variant">Platform Dukungan</span>
+<div class="flex gap-2 text-on-surface">
+<span class="material-symbols-outlined text-[18px]" title="Windows">desktop_windows</span>
+<span class="material-symbols-outlined text-[18px]" title="Android">android</span>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-label-sm font-label-sm text-on-surface-variant">Skrip Kompatibel</span>
+<span class="text-label-md font-label-md text-tertiary">1,245+</span>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-label-sm font-label-sm text-on-surface-variant">Tingkat Deteksi</span>
+<span class="bg-status-no-key/20 text-status-no-key px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider">Aman</span>
+</div>
+</div>
+<button class="w-full btn-secondary py-2 rounded-lg text-body-sm font-body-sm flex items-center justify-center gap-2">
+                    Lihat Skrip
+                    <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+<!-- Card 2: Delta -->
+<div class="glass-panel rounded-xl p-6 flex flex-col h-full glow-hover transition-all">
+<div class="flex items-start justify-between mb-4">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-surface-container rounded-lg flex items-center justify-center border border-outline-variant">
+<img class="w-8 h-8 object-contain" data-alt="A sleek minimalist triangular logo for a software tool, neon cyan edge lighting against a dark graphite background, futuristic UI element design, sharp crisp lines." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAhGNUrRAJB63KJpLkKXb_mAWCsmPbsEGsmT8ijNHKm_r5H1bYLim-0cOV1bHw10q4lMq96eBdtq60ljLPlqdNKR55jgxlXSchBztrBms18YEoUkGd_yx4l8Xt-IkrFkpQqqJcMrsPyTPLG0puvANcR_IeZXl1QxK6YjJjo8C0MAEnhVGSf4wfMb6mj8cyICjYlJjNt2_bsJzGlmhiBoUFmGEiT481qMFlBQjCoFQ5NpoqiG3h1g7HUrZGzqSndt-mepthNQQCtyAWt">
+</div>
+<div>
+<h3 class="text-headline-md font-headline-md text-on-surface">Delta</h3>
+<div class="flex items-center gap-2 mt-1">
+<span class="w-2 h-2 rounded-full bg-status-key-required"></span>
+<span class="text-label-sm font-label-sm text-status-key-required">Pembaruan (Maintenance)</span>
+</div>
+</div>
+</div>
+</div>
+<p class="text-body-sm font-body-sm text-on-surface-variant mb-6 flex-grow">Eksekutor premium yang difokuskan pada keamanan dan eksekusi tingkat lanjut. Sangat cocok untuk skrip yang kompleks dan berat.</p>
+<div class="space-y-4 mb-6">
+<div class="flex items-center justify-between">
+<span class="text-label-sm font-label-sm text-on-surface-variant">Platform Dukungan</span>
+<div class="flex gap-2 text-on-surface">
+<span class="material-symbols-outlined text-[18px]" title="Windows">desktop_windows</span>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-label-sm font-label-sm text-on-surface-variant">Skrip Kompatibel</span>
+<span class="text-label-md font-label-md text-tertiary">890+</span>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-label-sm font-label-sm text-on-surface-variant">Tingkat Deteksi</span>
+<span class="bg-status-key-required/20 text-status-key-required px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider">Risiko Sedang</span>
+</div>
+</div>
+<button class="w-full btn-secondary py-2 rounded-lg text-body-sm font-body-sm flex items-center justify-center gap-2">
+                    Lihat Skrip
+                    <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+<!-- Card 3: Hydrogen -->
+<div class="glass-panel rounded-xl p-6 flex flex-col h-full glow-hover transition-all">
+<div class="flex items-start justify-between mb-4">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-surface-container rounded-lg flex items-center justify-center border border-outline-variant">
+<img class="w-8 h-8 object-contain" data-alt="A vibrant glowing liquid drop logo for a mobile gaming script executor, bright green and blue gradient on a dark tech-pattern background, 3D rendered style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBh_W9G9rNM-f6aiCMVn3rsvkuJJcrHy3IFIBDG3vwZSC2D7t4KskcrkYDDbHex1uHiS3ytUO50_uoRIoidEOnjjaSZA3985IO7ovXSGOtkAr9zpP7O-pzAhqbvt88kjZJMpiks6BiIlEajwGl5B1isCpIsqLsfJJfePeD5azPzoWaxmAp2SuFIu8Jr9KocPJOttc-H5d6X5gRFbY5QAt3ZnnHze9NI_U6K2p7rKz3CVQXMcAnsijEdeQvkmo64tFLuzNAYHQ6HPWNW">
+</div>
+<div>
+<h3 class="text-headline-md font-headline-md text-on-surface">Hydrogen</h3>
+<div class="flex items-center gap-2 mt-1">
+<span class="w-2 h-2 rounded-full bg-status-no-key"></span>
+<span class="text-label-sm font-label-sm text-status-no-key">Online &amp; Active</span>
+</div>
+</div>
+</div>
+</div>
+<p class="text-body-sm font-body-sm text-on-surface-variant mb-6 flex-grow">Eksekutor terdepan untuk perangkat mobile. Dioptimalkan secara khusus untuk Android dan macOS dengan performa injeksi yang stabil.</p>
+<div class="space-y-4 mb-6">
+<div class="flex items-center justify-between">
+<span class="text-label-sm font-label-sm text-on-surface-variant">Platform Dukungan</span>
+<div class="flex gap-2 text-on-surface">
+<span class="material-symbols-outlined text-[18px]" title="Android">android</span>
+<span class="material-symbols-outlined text-[18px]" title="Mac">desktop_mac</span>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-label-sm font-label-sm text-on-surface-variant">Skrip Kompatibel</span>
+<span class="text-label-md font-label-md text-tertiary">2,100+</span>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-label-sm font-label-sm text-on-surface-variant">Tingkat Deteksi</span>
+<span class="bg-status-no-key/20 text-status-no-key px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider">Aman</span>
+</div>
+</div>
+<button class="w-full btn-secondary py-2 rounded-lg text-body-sm font-body-sm flex items-center justify-center gap-2">
+                    Lihat Skrip
+                    <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest border-t border-outline-variant/20 w-full py-margin-desktop mt-auto">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter px-gutter max-w-container-max mx-auto">
+<div class="md:col-span-1">
+<span class="text-headline-md font-headline-md text-primary block mb-4">ScriptHub</span>
+<p class="text-body-sm font-body-sm text-secondary opacity-80 mb-2">© 2024 ScriptHub Indonesia. Semua hak dilindungi.</p>
+</div>
+<div class="flex flex-col gap-2">
+<span class="text-label-md font-label-md text-on-surface mb-2">Perusahaan</span>
+<a class="text-on-surface-variant hover:text-tertiary transition-colors opacity-80 hover:opacity-100 font-body-sm text-body-sm" href="#">Tentang Kami</a>
+<a class="text-on-surface-variant hover:text-tertiary transition-colors opacity-80 hover:opacity-100 font-body-sm text-body-sm" href="#">Hubungi Kami</a>
+</div>
+<div class="flex flex-col gap-2">
+<span class="text-label-md font-label-md text-on-surface mb-2">Legal</span>
+<a class="text-on-surface-variant hover:text-tertiary transition-colors opacity-80 hover:opacity-100 font-body-sm text-body-sm" href="#">Kebijakan Privasi</a>
+<a class="text-on-surface-variant hover:text-tertiary transition-colors opacity-80 hover:opacity-100 font-body-sm text-body-sm" href="#">Ketentuan Layanan</a>
+</div>
+<div class="flex flex-col gap-2">
+<span class="text-label-md font-label-md text-on-surface mb-2">Komunitas</span>
+<a class="text-on-surface-variant hover:text-tertiary transition-colors opacity-80 hover:opacity-100 font-body-sm text-body-sm flex items-center gap-2" href="#"><span class="material-symbols-outlined text-[18px]">forum</span> Discord</a>
+<a class="text-on-surface-variant hover:text-tertiary transition-colors opacity-80 hover:opacity-100 font-body-sm text-body-sm flex items-center gap-2" href="#"><span class="material-symbols-outlined text-[18px]">send</span> Telegram</a>
+</div>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,398 @@
+<!DOCTYPE html><html class="dark" lang="id"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Katalog Skrip - ScriptHub</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Lexend:wght@600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "status-verified": "#3B82F6",
+                      "on-tertiary-fixed": "#001f26",
+                      "on-tertiary-fixed-variant": "#004e5c",
+                      "outline-variant": "#4d4354",
+                      "secondary": "#adc6ff",
+                      "primary": "#ddb7ff",
+                      "surface": "#0b1326",
+                      "tertiary-container": "#009eb9",
+                      "surface-variant": "#2d3449",
+                      "tertiary-fixed": "#acedff",
+                      "status-script-hub": "#A855F7",
+                      "surface-container-highest": "#2d3449",
+                      "on-secondary-fixed-variant": "#004395",
+                      "surface-card": "#1E293B",
+                      "on-secondary-container": "#e6ecff",
+                      "on-error-container": "#ffdad6",
+                      "on-secondary": "#002e6a",
+                      "status-key-required": "#F59E0B",
+                      "on-primary-fixed-variant": "#6900b3",
+                      "tertiary-fixed-dim": "#4cd7f6",
+                      "status-no-key": "#22C55E",
+                      "on-secondary-fixed": "#001a42",
+                      "primary-fixed": "#f0dbff",
+                      "surface-container-high": "#222a3d",
+                      "on-surface": "#dae2fd",
+                      "surface-container-low": "#131b2e",
+                      "surface-dim": "#0b1326",
+                      "tertiary": "#4cd7f6",
+                      "on-surface-variant": "#cfc2d6",
+                      "on-tertiary": "#003640",
+                      "background": "#0b1326",
+                      "surface-container": "#171f33",
+                      "primary-fixed-dim": "#ddb7ff",
+                      "surface-container-lowest": "#060e20",
+                      "secondary-fixed-dim": "#adc6ff",
+                      "outline": "#988d9f",
+                      "primary-container": "#b76dff",
+                      "error-container": "#93000a",
+                      "surface-tint": "#ddb7ff",
+                      "secondary-container": "#0566d9",
+                      "on-primary-fixed": "#2c0051",
+                      "on-primary": "#490080",
+                      "on-primary-container": "#400071",
+                      "inverse-primary": "#842bd2",
+                      "on-tertiary-container": "#002f38",
+                      "on-error": "#690005",
+                      "inverse-on-surface": "#283044",
+                      "on-background": "#dae2fd",
+                      "surface-bright": "#31394d",
+                      "secondary-fixed": "#d8e2ff",
+                      "inverse-surface": "#dae2fd",
+                      "error": "#ffb4ab"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "unit": "4px",
+                      "margin-mobile": "1rem",
+                      "container-max": "1280px",
+                      "margin-desktop": "2rem",
+                      "gutter": "1.5rem"
+              },
+              "fontFamily": {
+                      "label-sm": ["Inter"],
+                      "body-md": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "headline-xl": ["Lexend"],
+                      "headline-md": ["Lexend"],
+                      "headline-lg-mobile": ["Lexend"],
+                      "body-sm": ["Inter"],
+                      "label-md": ["Inter"],
+                      "headline-lg": ["Lexend"]
+              },
+              "fontSize": {
+                      "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                      "headline-xl": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "label-md": ["14px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                      "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid #334155;
+        }
+        .glow-hover:hover {
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.2);
+        }
+        .text-gradient {
+            background: linear-gradient(to right, #A855F7, #3B82F6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .btn-primary {
+            background: linear-gradient(to right, #A855F7, #3B82F6);
+            color: white;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen flex flex-col pt-16">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-surface/70 backdrop-blur-xl border-b border-outline-variant/30 shadow-sm">
+<div class="flex justify-between items-center h-16 px-gutter max-w-container-max mx-auto">
+<div class="flex items-center gap-8">
+<div class="text-headline-md font-headline-md font-bold text-primary">ScriptHub</div>
+<div class="hidden md:flex gap-6">
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Beranda</a>
+<a class="font-label-md text-label-md text-tertiary border-b-2 border-tertiary pb-1" href="#">Skrip</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Eksekutor</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Game</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden md:flex items-center bg-surface-container-high rounded-full px-4 py-1.5 border border-outline-variant/30 focus-within:border-tertiary transition-colors">
+<input class="bg-transparent border-none text-body-sm text-on-surface focus:ring-0 placeholder-outline w-48" placeholder="Cari skrip..." type="text">
+<span class="material-symbols-outlined text-outline text-sm" data-icon="search">search</span>
+</div>
+<button class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors scale-95 active:scale-90">Login</button>
+<button class="btn-primary font-label-md text-label-md px-4 py-2 rounded-lg scale-95 active:scale-90 transition-transform">Unggah</button>
+<div class="flex gap-2">
+<button class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined" data-icon="notifications">notifications</span></button>
+<button class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined" data-icon="language">language</span></button>
+<button class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined" data-icon="dark_mode">dark_mode</span></button>
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="flex-grow max-w-container-max mx-auto w-full px-margin-mobile md:px-margin-desktop py-8 grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Sidebar Filter -->
+<aside class="md:col-span-3 space-y-6">
+<div class="glass-panel rounded-xl p-6">
+<h3 class="font-headline-md text-headline-md mb-6">Filter</h3>
+<div class="space-y-4">
+<!-- Kategori -->
+<div>
+<h4 class="font-label-md text-label-md text-on-surface-variant mb-2">Kategori</h4>
+<div class="space-y-2">
+<label class="flex items-center gap-2 cursor-pointer group">
+<input class="form-checkbox rounded bg-surface-container border-outline-variant text-status-script-hub focus:ring-status-script-hub focus:ring-offset-surface" type="checkbox">
+<span class="font-body-sm text-body-sm group-hover:text-primary transition-colors">Auto Farm</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer group">
+<input class="form-checkbox rounded bg-surface-container border-outline-variant text-status-script-hub focus:ring-status-script-hub focus:ring-offset-surface" type="checkbox">
+<span class="font-body-sm text-body-sm group-hover:text-primary transition-colors">Combat</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer group">
+<input class="form-checkbox rounded bg-surface-container border-outline-variant text-status-script-hub focus:ring-status-script-hub focus:ring-offset-surface" type="checkbox">
+<span class="font-body-sm text-body-sm group-hover:text-primary transition-colors">Teleport</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer group">
+<input class="form-checkbox rounded bg-surface-container border-outline-variant text-status-script-hub focus:ring-status-script-hub focus:ring-offset-surface" type="checkbox">
+<span class="font-body-sm text-body-sm group-hover:text-primary transition-colors">ESP</span>
+</label>
+</div>
+</div>
+<div class="w-full h-px bg-outline-variant/30"></div>
+<!-- Status -->
+<div>
+<h4 class="font-label-md text-label-md text-on-surface-variant mb-2">Status Key</h4>
+<div class="space-y-2">
+<label class="flex items-center gap-2 cursor-pointer group">
+<input class="form-radio bg-surface-container border-outline-variant text-status-script-hub focus:ring-status-script-hub focus:ring-offset-surface" name="key_status" type="radio">
+<span class="font-body-sm text-body-sm group-hover:text-primary transition-colors">Semua</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer group">
+<input class="form-radio bg-surface-container border-outline-variant text-status-no-key focus:ring-status-no-key focus:ring-offset-surface" name="key_status" type="radio">
+<span class="font-body-sm text-body-sm group-hover:text-status-no-key transition-colors">Tanpa Key</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer group">
+<input class="form-radio bg-surface-container border-outline-variant text-status-key-required focus:ring-status-key-required focus:ring-offset-surface" name="key_status" type="radio">
+<span class="font-body-sm text-body-sm group-hover:text-status-key-required transition-colors">Butuh Key</span>
+</label>
+</div>
+</div>
+<div class="w-full h-px bg-outline-variant/30"></div>
+<!-- Eksekutor -->
+<div>
+<h4 class="font-label-md text-label-md text-on-surface-variant mb-2">Eksekutor Support</h4>
+<select class="w-full bg-surface-container border border-outline-variant rounded-lg p-2 font-body-sm text-body-sm text-on-surface focus:border-tertiary focus:ring-1 focus:ring-tertiary outline-none">
+<option>Semua Eksekutor</option>
+<option>Krnl</option>
+<option>Synapse X</option>
+<option>Fluxus</option>
+</select>
+</div>
+<div class="pt-4">
+<label class="flex items-center justify-between cursor-pointer">
+<span class="font-label-md text-label-md flex items-center gap-1 text-status-verified">
+<span class="material-symbols-outlined text-[18px]" data-icon="verified">verified</span> Verified Only
+                            </span>
+<div class="relative">
+<input class="sr-only peer" type="checkbox">
+<div class="w-10 h-6 bg-surface-container rounded-full peer peer-checked:bg-status-script-hub peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-1 after:left-1 after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all"></div>
+</div>
+</label>
+</div>
+</div>
+</div>
+</aside>
+<!-- Script Grid -->
+<section class="md:col-span-9 space-y-6">
+<!-- Top Actions -->
+<div class="flex flex-col sm:flex-row justify-between items-center gap-4 bg-surface-card/50 rounded-xl p-4 border border-outline-variant/30">
+<p class="font-body-sm text-body-sm text-on-surface-variant">Menampilkan <strong class="text-on-surface">1-12</strong> dari <strong class="text-on-surface">1,248</strong> skrip</p>
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Urutkan:</span>
+<select class="bg-surface-container border border-outline-variant rounded-lg px-3 py-1.5 font-body-sm text-body-sm text-on-surface focus:border-tertiary focus:ring-1 focus:ring-tertiary outline-none">
+<option>Terbaru</option>
+<option>Populer</option>
+<option>Rating Tertinggi</option>
+</select>
+</div>
+</div>
+<!-- Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Card 1 -->
+<div class="glass-panel rounded-xl overflow-hidden glow-hover transition-all duration-300 flex flex-col group">
+<div class="h-32 bg-surface-container relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-br from-status-script-hub/20 to-transparent"></div>
+<img class="w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-500" data-alt="A dark, high-contrast abstract technological background with neon purple and cyan circuit board patterns, illuminated in a premium gamer aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDvvf06MEsReCxZ3GPZfObmtaFaLqVSwVHvBGexEvpWyOdg7SPtX5wSeoahOl-gwEG8hzE4qUz5LxVC_cRIzcKou37FkqJGiI2HlYclbjFabwstJf9ZktuUQ3m_wPcfZR-mRVtv9I3awkY11Mkf5vI7-hNeR8kl_hFu1NPC6vdXhg1md_2jaL2c6__JUR_WQOzJUCPmdYT21z1QWMcHuyQtpH7MJO6tW9f_dSi_8m3gaQIpWcLray9PxW7zj6-QudS_ealvPYpuoy3f">
+<div class="absolute top-2 right-2 flex gap-1">
+<span class="bg-status-no-key/20 text-status-no-key border border-status-no-key/30 px-2 py-0.5 rounded font-label-sm text-label-sm">No Key</span>
+</div>
+</div>
+<div class="p-4 flex-grow flex flex-col">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-md text-headline-md-mobile text-on-surface leading-tight truncate pr-2">Blox Fruits Auto Farm</h3>
+<span class="material-symbols-outlined text-status-verified text-[20px]" data-icon="verified" title="Verified">verified</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-4 line-clamp-2">Skrip auto farm terbaik untuk Blox Fruits. Mendukung auto quest, auto stats, dan ESP lengkap.</p>
+<div class="mt-auto">
+<div class="flex justify-between items-center mb-4">
+<div class="flex items-center gap-1.5 text-on-surface-variant font-body-sm text-label-sm">
+<img class="w-5 h-5 rounded-full object-cover" data-alt="A small, stylized avatar of a professional gamer/developer, futuristic dark mode style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuALuRwNmfL48Oh5n70R4tI8KXljmCsTkWHulNSXcwQQdxO4JrQJV3Zbs1fB3EDJu8X6Ehj2AVEjbP3wJ1kuVkq36n92yayGo_lGcWYzlso1VRVbtRMFrQdNVs_TZY4Xzdc-_EsQ_EO03kaO9Y7Zs9XcFNy5Eloif8HIg5RuJt3nLCRJgskyhrK_1Wh8L2g39mtAzjO37d08JIs1bAp5vcSI7e8SQEAU4y129M16w-fret_ELIDn4vzGzxMMt0sTJdORAa3uhCeRAE4o">
+<span class="truncate w-20">ScriptGod99</span>
+</div>
+<div class="flex items-center gap-3 text-outline font-label-sm text-label-sm">
+<span class="flex items-center gap-0.5"><span class="material-symbols-outlined text-[14px]" data-icon="visibility">visibility</span> 12.4k</span>
+<span class="flex items-center gap-0.5"><span class="material-symbols-outlined text-[14px]" data-icon="thumb_up">thumb_up</span> 892</span>
+</div>
+</div>
+<button class="w-full btn-primary font-label-md text-label-md py-2 rounded-lg flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]" data-icon="content_copy">content_copy</span> Salin Skrip
+                            </button>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="glass-panel rounded-xl overflow-hidden glow-hover transition-all duration-300 flex flex-col group">
+<div class="h-32 bg-surface-container relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-br from-tertiary/20 to-transparent"></div>
+<div class="absolute top-2 right-2 flex gap-1">
+<span class="bg-status-key-required/20 text-status-key-required border border-status-key-required/30 px-2 py-0.5 rounded font-label-sm text-label-sm">Key System</span>
+</div>
+</div>
+<div class="p-4 flex-grow flex flex-col">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-md text-headline-md-mobile text-on-surface leading-tight truncate pr-2">Arsenal Aimbot Pro</h3>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-4 line-clamp-2">Silent aim, ESP, wallbang, dan banyak fitur OP lainnya untuk Arsenal.</p>
+<div class="mt-auto">
+<div class="flex justify-between items-center mb-4">
+<div class="flex items-center gap-1.5 text-on-surface-variant font-body-sm text-label-sm">
+<div class="w-5 h-5 rounded-full bg-surface-container-highest flex items-center justify-center text-[10px]">D</div>
+<span class="truncate w-20">DevX</span>
+</div>
+<div class="flex items-center gap-3 text-outline font-label-sm text-label-sm">
+<span class="flex items-center gap-0.5"><span class="material-symbols-outlined text-[14px]" data-icon="visibility">visibility</span> 8.1k</span>
+<span class="flex items-center gap-0.5"><span class="material-symbols-outlined text-[14px]" data-icon="thumb_up">thumb_up</span> 450</span>
+</div>
+</div>
+<button class="w-full btn-primary font-label-md text-label-md py-2 rounded-lg flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]" data-icon="content_copy">content_copy</span> Salin Skrip
+                            </button>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="glass-panel rounded-xl overflow-hidden glow-hover transition-all duration-300 flex flex-col group">
+<div class="h-32 bg-surface-container relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-br from-secondary/20 to-transparent"></div>
+<div class="absolute top-2 right-2 flex gap-1">
+<span class="bg-status-no-key/20 text-status-no-key border border-status-no-key/30 px-2 py-0.5 rounded font-label-sm text-label-sm">No Key</span>
+</div>
+</div>
+<div class="p-4 flex-grow flex flex-col">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-md text-headline-md-mobile text-on-surface leading-tight truncate pr-2">Pet Simulator X GUI</h3>
+<span class="material-symbols-outlined text-status-verified text-[20px]" data-icon="verified" title="Verified">verified</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-4 line-clamp-2">Auto hatch, auto collect coins, trade scam (visual), super fast.</p>
+<div class="mt-auto">
+<div class="flex justify-between items-center mb-4">
+<div class="flex items-center gap-1.5 text-on-surface-variant font-body-sm text-label-sm">
+<div class="w-5 h-5 rounded-full bg-surface-container-highest flex items-center justify-center text-[10px]">P</div>
+<span class="truncate w-20">ProScripter</span>
+</div>
+<div class="flex items-center gap-3 text-outline font-label-sm text-label-sm">
+<span class="flex items-center gap-0.5"><span class="material-symbols-outlined text-[14px]" data-icon="visibility">visibility</span> 22k</span>
+<span class="flex items-center gap-0.5"><span class="material-symbols-outlined text-[14px]" data-icon="thumb_up">thumb_up</span> 1.2k</span>
+</div>
+</div>
+<button class="w-full btn-primary font-label-md text-label-md py-2 rounded-lg flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]" data-icon="content_copy">content_copy</span> Salin Skrip
+                            </button>
+</div>
+</div>
+</div>
+<!-- Card 4 (Placeholder to show grid expansion) -->
+<div class="glass-panel rounded-xl overflow-hidden glow-hover transition-all duration-300 flex flex-col group opacity-75">
+<div class="h-32 bg-surface-container relative overflow-hidden flex items-center justify-center">
+<span class="material-symbols-outlined text-outline text-4xl" data-icon="code">code</span>
+</div>
+<div class="p-4 flex-grow flex flex-col">
+<div class="h-6 bg-surface-container-high rounded w-3/4 mb-4"></div>
+<div class="space-y-2 mb-4">
+<div class="h-4 bg-surface-container-high rounded w-full"></div>
+<div class="h-4 bg-surface-container-high rounded w-5/6"></div>
+</div>
+<div class="mt-auto">
+<div class="h-10 bg-surface-container-high rounded-lg w-full"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Pagination -->
+<div class="flex justify-center mt-8">
+<div class="flex items-center gap-1 bg-surface-card rounded-lg border border-outline-variant/30 p-1">
+<button class="p-2 text-on-surface-variant hover:text-primary disabled:opacity-50"><span class="material-symbols-outlined text-sm" data-icon="chevron_left">chevron_left</span></button>
+<button class="w-8 h-8 rounded-md bg-primary/20 text-primary font-label-md flex items-center justify-center">1</button>
+<button class="w-8 h-8 rounded-md hover:bg-surface-container-high text-on-surface-variant font-label-md flex items-center justify-center">2</button>
+<button class="w-8 h-8 rounded-md hover:bg-surface-container-high text-on-surface-variant font-label-md flex items-center justify-center">3</button>
+<span class="px-2 text-outline">...</span>
+<button class="w-8 h-8 rounded-md hover:bg-surface-container-high text-on-surface-variant font-label-md flex items-center justify-center">104</button>
+<button class="p-2 text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span></button>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest w-full py-margin-desktop border-t border-outline-variant/20 mt-auto">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter px-gutter max-w-container-max mx-auto">
+<div class="col-span-1 md:col-span-2">
+<div class="text-headline-md font-headline-md text-primary mb-4">ScriptHub</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-4">© 2024 ScriptHub Indonesia. Semua hak dilindungi.</p>
+</div>
+<div>
+<h5 class="font-label-md text-label-md text-on-surface mb-4">Tautan</h5>
+<ul class="space-y-2">
+<li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-tertiary transition-colors opacity-80 hover:opacity-100" href="#">Tentang Kami</a></li>
+<li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-tertiary transition-colors opacity-80 hover:opacity-100" href="#">Kebijakan Privasi</a></li>
+<li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-tertiary transition-colors opacity-80 hover:opacity-100" href="#">Ketentuan Layanan</a></li>
+</ul>
+</div>
+<div>
+<h5 class="font-label-md text-label-md text-on-surface mb-4">Komunitas</h5>
+<ul class="space-y-2">
+<li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-tertiary transition-colors opacity-80 hover:opacity-100" href="#">Hubungi Kami</a></li>
+<li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-tertiary transition-colors opacity-80 hover:opacity-100" href="#">Discord</a></li>
+<li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-tertiary transition-colors opacity-80 hover:opacity-100" href="#">Telegram</a></li>
+</ul>
+</div>
+</div>
+</footer>
+</body></html>

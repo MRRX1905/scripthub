@@ -1,0 +1,498 @@
+<!DOCTYPE html><html class="dark" lang="id"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>ScriptHub Indonesia - Temukan Script Game dengan Cepat</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Google Fonts: Lexend & Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Lexend:wght@600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "tertiary-fixed": "#acedff",
+                      "inverse-surface": "#dae2fd",
+                      "on-tertiary-fixed-variant": "#004e5c",
+                      "surface-bright": "#31394d",
+                      "on-secondary": "#002e6a",
+                      "surface": "#0b1326",
+                      "surface-container": "#171f33",
+                      "on-primary-fixed-variant": "#6900b3",
+                      "inverse-on-surface": "#283044",
+                      "secondary-fixed": "#d8e2ff",
+                      "status-script-hub": "#A855F7",
+                      "surface-tint": "#ddb7ff",
+                      "primary": "#ddb7ff",
+                      "on-primary-fixed": "#2c0051",
+                      "status-key-required": "#F59E0B",
+                      "on-secondary-fixed-variant": "#004395",
+                      "on-primary-container": "#400071",
+                      "background": "#0F172A", // Overridden for Brand spec
+                      "on-surface": "#dae2fd",
+                      "tertiary": "#06B6D4", // Overridden for Brand spec (Cyan)
+                      "outline": "#988d9f",
+                      "outline-variant": "#334155", // Overridden for Brand spec
+                      "surface-variant": "#2d3449",
+                      "on-secondary-container": "#e6ecff",
+                      "on-secondary-fixed": "#001a42",
+                      "status-verified": "#3B82F6",
+                      "surface-dim": "#0b1326",
+                      "error-container": "#93000a",
+                      "primary-fixed": "#f0dbff",
+                      "on-tertiary-container": "#002f38",
+                      "on-primary": "#490080",
+                      "secondary-container": "#0566d9",
+                      "surface-card": "#1E293B", // Overridden for Brand spec
+                      "secondary-fixed-dim": "#adc6ff",
+                      "on-background": "#dae2fd",
+                      "primary-container": "#b76dff",
+                      "inverse-primary": "#842bd2",
+                      "on-surface-variant": "#94A3B8", // Adjusted for contrast
+                      "tertiary-container": "#009eb9",
+                      "primary-fixed-dim": "#ddb7ff",
+                      "on-error": "#690005",
+                      "status-no-key": "#22C55E",
+                      "surface-container-high": "#222a3d",
+                      "surface-container-lowest": "#060e20",
+                      "on-tertiary": "#003640",
+                      "surface-container-highest": "#2d3449",
+                      "on-tertiary-fixed": "#001f26",
+                      "tertiary-fixed-dim": "#4cd7f6",
+                      "on-error-container": "#ffdad6",
+                      "secondary": "#adc6ff",
+                      "error": "#ffb4ab",
+                      "surface-container-low": "#131b2e"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "1rem", // Overridden for 16px spec
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "gutter": "1.5rem",
+                      "unit": "4px",
+                      "container-max": "1280px",
+                      "margin-mobile": "1rem",
+                      "margin-desktop": "2rem"
+              },
+              "fontFamily": {
+                      "body-lg": ["Inter"],
+                      "body-sm": ["Inter"],
+                      "label-md": ["Inter"],
+                      "headline-md": ["Lexend"],
+                      "body-md": ["Inter"],
+                      "headline-lg-mobile": ["Lexend"],
+                      "headline-xl": ["Lexend"],
+                      "label-sm": ["Inter"],
+                      "headline-lg": ["Lexend"]
+              },
+              "fontSize": {
+                      "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                      "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "label-md": ["14px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "headline-xl": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                      "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        /* Custom Neon Glow Utilities */
+        .glow-primary-hover:hover {
+            box-shadow: 0 0 8px rgba(168, 85, 247, 0.8);
+        }
+        .glow-cyan-focus:focus-within {
+            box-shadow: 0 0 12px rgba(6, 182, 212, 0.4);
+        }
+        .glass-overlay {
+            background-color: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        
+        /* Gradient Text */
+        .text-gradient {
+            background: linear-gradient(to right, #A855F7, #3B82F6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Button Gradients */
+        .btn-primary {
+            background: linear-gradient(135deg, #A855F7, #3B82F6);
+        }
+        
+        /* Scrollbar Styling for a premium feel */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0F172A; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569; 
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md antialiased selection:bg-status-script-hub/30 selection:text-white">
+<!-- TopNavBar (Shared Component) -->
+<nav class="fixed top-0 w-full z-50 bg-surface/70 backdrop-blur-xl border-b border-outline-variant/30 shadow-sm">
+<div class="flex justify-between items-center h-16 px-gutter max-w-container-max mx-auto">
+<!-- Brand -->
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-2xl" style="font-variation-settings: 'FILL' 1;">terminal</span>
+<span class="text-headline-md font-headline-md font-bold text-primary">ScriptHub</span>
+</div>
+<!-- Navigation Links (Web) -->
+<div class="hidden md:flex gap-8">
+<a class="font-label-md text-label-md text-tertiary border-b-2 border-tertiary pb-1 transition-colors" href="#">Beranda</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Skrip</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Eksekutor</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Game</a>
+</div>
+<!-- Trailing Actions -->
+<div class="flex items-center gap-4">
+<div class="hidden md:flex items-center gap-3">
+<button class="text-on-surface-variant hover:text-primary transition-colors scale-95 active:scale-90 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors scale-95 active:scale-90 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">language</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors scale-95 active:scale-90 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dark_mode</span>
+</button>
+</div>
+<div class="flex gap-3">
+<button class="font-label-md text-label-md text-tertiary border border-tertiary px-4 py-2 rounded-lg hover:bg-tertiary/10 transition-colors hidden md:block">
+                        Login
+                    </button>
+<button class="btn-primary font-label-md text-label-md text-white px-4 py-2 rounded-lg glow-primary-hover transition-all scale-95 active:scale-90">
+                        Unggah
+                    </button>
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Container -->
+<main class="pt-24 pb-16 px-gutter max-w-container-max mx-auto space-y-16">
+<!-- Hero Section -->
+<section class="flex flex-col items-center justify-center text-center space-y-8 py-16 md:py-24 relative">
+<!-- Subtle background glow -->
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-status-script-hub/10 blur-[100px] rounded-full pointer-events-none z-0"></div>
+<div class="relative z-10 max-w-3xl space-y-6">
+<h1 class="font-headline-xl text-headline-xl text-white">
+                    Temukan Script Game <br class="hidden md:block">
+<span class="text-gradient">Dengan Cepat</span>
+</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">
+                    Database skrip terbesar dan teraman untuk komunitas gaming Indonesia. Bypass, auto-farm, dan optimasi performa dalam hitungan detik.
+                </p>
+<!-- Centered Search Bar -->
+<div class="w-full max-w-2xl mx-auto mt-8">
+<div class="relative flex items-center bg-surface border border-outline-variant rounded-xl glow-cyan-focus transition-all overflow-hidden h-14">
+<span class="material-symbols-outlined absolute left-4 text-on-surface-variant">search</span>
+<input class="w-full h-full bg-transparent border-none pl-12 pr-4 text-white placeholder-on-surface-variant focus:ring-0 focus:outline-none font-body-md" placeholder="Cari script, game, atau kreator..." type="text">
+<button class="absolute right-2 btn-primary p-2 rounded-lg text-white scale-95 active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Popular Chips -->
+<div class="flex flex-wrap items-center justify-center gap-3 pt-4">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Populer:</span>
+<button class="px-3 py-1.5 rounded-full bg-surface-card border border-outline-variant text-sm hover:border-tertiary hover:text-tertiary transition-colors">Blox Fruits</button>
+<button class="px-3 py-1.5 rounded-full bg-surface-card border border-outline-variant text-sm hover:border-tertiary hover:text-tertiary transition-colors">Pet Simulator 99</button>
+<button class="px-3 py-1.5 rounded-full bg-surface-card border border-outline-variant text-sm hover:border-tertiary hover:text-tertiary transition-colors">Doors</button>
+</div>
+</div>
+</section>
+<!-- Content Area: Grid + Sidebar -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Main Content Column (9 Cols) -->
+<div class="lg:col-span-9 space-y-8">
+<!-- Filter Bar -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-surface-card p-4 rounded-xl border border-outline-variant">
+<div class="flex flex-wrap gap-4">
+<div class="relative group">
+<button class="flex items-center gap-2 px-4 py-2 bg-background border border-outline-variant rounded-lg text-sm hover:border-tertiary transition-colors">
+                                Kategori <span class="material-symbols-outlined text-sm">expand_more</span>
+</button>
+</div>
+<div class="relative group">
+<button class="flex items-center gap-2 px-4 py-2 bg-background border border-outline-variant rounded-lg text-sm hover:border-tertiary transition-colors">
+                                Key System <span class="material-symbols-outlined text-sm">expand_more</span>
+</button>
+</div>
+<div class="relative group">
+<button class="flex items-center gap-2 px-4 py-2 bg-background border border-outline-variant rounded-lg text-sm hover:border-tertiary transition-colors">
+                                Tipe <span class="material-symbols-outlined text-sm">expand_more</span>
+</button>
+</div>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">sort</span>
+<span class="font-label-sm text-label-sm">Urutkan: Terbaru</span>
+</div>
+</div>
+<!-- Scripts Grid (3 Columns) -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+<!-- Card 1 -->
+<div class="bg-surface-card rounded-xl border border-outline-variant overflow-hidden hover:border-tertiary/50 transition-colors group flex flex-col h-full">
+<div class="h-32 bg-background relative overflow-hidden">
+<div class="bg-cover bg-center w-full h-full opacity-60 group-hover:opacity-80 transition-opacity" data-alt="A detailed digital artwork depicting a vibrant, glowing red and black katana surrounded by swirling neon cherry blossoms in a dark, high-contrast, cyberpunk-inspired environment. The mood is intense, fast-paced, and highly stylized, typical of action-RPG gaming thumbnails. Professional lighting with deep shadows." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDUWm0ItL4DbL3yEAwiiUG4X0-Pfey1XJFAACckaq758UqQmlCYQJpkH52uthggXXpuit6PLRrobbKchp-nd9uMT1K1IFNv7_r01kJFNUlbyPwd3hg7TmDicPMuw_QMFEqei6q3qkkigE2U57urXXlj9PnGAOVftTthO_fTj_bOxIo8sHawChAnz9fLkbDM1cCyqIddyy2cihsvG5i3anaGRyWX9IfwnF3GpRwIffb-Wp7HgrKkn6Tc_TH6yH1_0pKDu2NqhxaLdN5H')"></div>
+<div class="absolute top-2 right-2 flex gap-2">
+<span class="bg-status-no-key/20 text-status-no-key px-2 py-1 rounded text-xs font-semibold backdrop-blur-md border border-status-no-key/30 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">lock_open</span> No Key
+                                </span>
+</div>
+</div>
+<div class="p-4 flex flex-col flex-grow justify-between space-y-4">
+<div>
+<h3 class="font-headline-md text-lg text-white mb-1 truncate">Hoho Hub v4 - Blox Fruits</h3>
+<p class="text-sm text-on-surface-variant truncate">Auto Farm, ESP, Teleport</p>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex gap-2">
+<span class="bg-status-verified/20 text-status-verified px-2 py-1 rounded text-xs font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">verified</span> Verified
+                                    </span>
+</div>
+<div class="flex gap-1 opacity-70">
+<span class="material-symbols-outlined text-[18px]" title="Fluxus Compatible">terminal</span>
+<span class="material-symbols-outlined text-[18px]" title="Delta Compatible">rocket_launch</span>
+</div>
+</div>
+<button class="w-full py-2 rounded-lg bg-surface border border-outline-variant text-white font-label-md text-label-md hover:border-status-script-hub hover:text-status-script-hub transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">content_copy</span> Copy Script
+                            </button>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-card rounded-xl border border-outline-variant overflow-hidden hover:border-tertiary/50 transition-colors group flex flex-col h-full">
+<div class="h-32 bg-background relative overflow-hidden">
+<div class="bg-cover bg-center w-full h-full opacity-60 group-hover:opacity-80 transition-opacity" data-alt="A high-contrast digital illustration of futuristic glowing pets (a dog and a cat) made of neon blue and purple light lines, standing on a grid floor in a dark void. The scene suggests a futuristic pet simulation environment. High-key neon lighting against pitch-black shadows." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDfEMWeACL81TIwsEHfNW0v0dADacs-RsxICWCZThjyF-WPWEg6Qp3Vi6OUmXFsm46P0b1QTnbNvu1T_nAKYrvVUvbM2bLT7_Pqph3BUUE98yUuRJAqfq7H08jQF0nTEidVZuCqCCibH27YuAIbDpnJn1izKWxf8cwu85x2zmHVrHQA37SGmlrOlq9ARGua0Lq36CVffNe6Y07csFdUdqrvh_NEqATtzMZExqB3Cmx8lvSpqhX5WDQj3Hn1ezPJubcgJK0YKaG_Bh1s')"></div>
+<div class="absolute top-2 right-2 flex gap-2">
+<span class="bg-status-key-required/20 text-status-key-required px-2 py-1 rounded text-xs font-semibold backdrop-blur-md border border-status-key-required/30 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">key</span> Key Req
+                                </span>
+</div>
+</div>
+<div class="p-4 flex flex-col flex-grow justify-between space-y-4">
+<div>
+<h3 class="font-headline-md text-lg text-white mb-1 truncate">Zap Hub - Pet Sim 99</h3>
+<p class="text-sm text-on-surface-variant truncate">Auto Hatch, Farm Coins</p>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex gap-2">
+<span class="bg-status-verified/20 text-status-verified px-2 py-1 rounded text-xs font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">verified</span> Verified
+                                    </span>
+</div>
+<div class="flex gap-1 opacity-70">
+<span class="material-symbols-outlined text-[18px]" title="Fluxus Compatible">terminal</span>
+</div>
+</div>
+<button class="w-full py-2 rounded-lg bg-surface border border-outline-variant text-white font-label-md text-label-md hover:border-status-script-hub hover:text-status-script-hub transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">content_copy</span> Copy Script
+                            </button>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-card rounded-xl border border-outline-variant overflow-hidden hover:border-tertiary/50 transition-colors group flex flex-col h-full">
+<div class="h-32 bg-background relative overflow-hidden">
+<div class="bg-cover bg-center w-full h-full opacity-60 group-hover:opacity-80 transition-opacity" data-alt="A creepy, atmospheric 3D render of a long, dark hotel corridor with numerous wooden doors stretching into the distance. A single, ominous cyan light glows from beneath one of the doors. Heavy shadows, cinematic lighting, horror-game aesthetic, high detail." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBxN4r1W4csxmMhh2078UxZbZXYbDyndf7scdlErQjmiwFqZFN6BJd0vWyo6SoNdlkyuTgUbZlSQ3gIHs06RRNq4fdaxFR6jt-9-98UWu08ZJbH3BTk2QC2sv1HfjXnm1aOoaYSRiPI7zckWpIfFNwvSSDuN0stCcxpJELhpdmnO5qr3pjLk5T5NdFR_eO4SqRTZrzDDLlWo9GWQcrhMAQrnt9bwpKfZJMLDgFcCojjOJD6qoVry9VA7Eq5tnzALDt79mNUqS4ifniy')"></div>
+<div class="absolute top-2 right-2 flex gap-2">
+<span class="bg-status-no-key/20 text-status-no-key px-2 py-1 rounded text-xs font-semibold backdrop-blur-md border border-status-no-key/30 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">lock_open</span> No Key
+                                </span>
+</div>
+</div>
+<div class="p-4 flex flex-col flex-grow justify-between space-y-4">
+<div>
+<h3 class="font-headline-md text-lg text-white mb-1 truncate">Vanta - Doors</h3>
+<p class="text-sm text-on-surface-variant truncate">Auto Skip, Monster ESP</p>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex gap-2">
+<span class="bg-outline-variant/30 text-on-surface-variant px-2 py-1 rounded text-xs font-semibold flex items-center gap-1 border border-outline-variant">
+<span class="material-symbols-outlined text-[14px]">update</span> New
+                                    </span>
+</div>
+<div class="flex gap-1 opacity-70">
+<span class="material-symbols-outlined text-[18px]" title="Delta Compatible">rocket_launch</span>
+</div>
+</div>
+<button class="w-full py-2 rounded-lg bg-surface border border-outline-variant text-white font-label-md text-label-md hover:border-status-script-hub hover:text-status-script-hub transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">content_copy</span> Copy Script
+                            </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Sidebar (3 Cols) -->
+<aside class="lg:col-span-3 space-y-6">
+<!-- Trending Scripts -->
+<div class="bg-surface-card rounded-xl border border-outline-variant p-5">
+<h3 class="font-headline-md text-lg text-white mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-status-script-hub">trending_up</span> Trending
+                    </h3>
+<ul class="space-y-4">
+<li class="flex gap-3 items-start group cursor-pointer">
+<div class="w-10 h-10 rounded bg-background flex-shrink-0 flex items-center justify-center text-on-surface-variant group-hover:text-tertiary border border-outline-variant group-hover:border-tertiary transition-colors">
+<span class="font-headline-md text-sm">1</span>
+</div>
+<div>
+<h4 class="font-label-md text-sm text-white group-hover:text-tertiary transition-colors">Hoho Hub v4</h4>
+<p class="text-xs text-on-surface-variant">Blox Fruits • 12k plays</p>
+</div>
+</li>
+<li class="flex gap-3 items-start group cursor-pointer">
+<div class="w-10 h-10 rounded bg-background flex-shrink-0 flex items-center justify-center text-on-surface-variant group-hover:text-tertiary border border-outline-variant group-hover:border-tertiary transition-colors">
+<span class="font-headline-md text-sm">2</span>
+</div>
+<div>
+<h4 class="font-label-md text-sm text-white group-hover:text-tertiary transition-colors">Zap Hub</h4>
+<p class="text-xs text-on-surface-variant">Pet Sim 99 • 8k plays</p>
+</div>
+</li>
+<li class="flex gap-3 items-start group cursor-pointer">
+<div class="w-10 h-10 rounded bg-background flex-shrink-0 flex items-center justify-center text-on-surface-variant group-hover:text-tertiary border border-outline-variant group-hover:border-tertiary transition-colors">
+<span class="font-headline-md text-sm">3</span>
+</div>
+<div>
+<h4 class="font-label-md text-sm text-white group-hover:text-tertiary transition-colors">Vanta</h4>
+<p class="text-xs text-on-surface-variant">Doors • 5k plays</p>
+</div>
+</li>
+</ul>
+</div>
+<!-- Community Stats -->
+<div class="bg-surface-card rounded-xl border border-outline-variant p-5">
+<h3 class="font-headline-md text-lg text-white mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary">bar_chart</span> Statistik Komunitas
+                    </h3>
+<div class="space-y-4">
+<div class="flex justify-between items-center bg-background p-3 rounded-lg border border-outline-variant">
+<span class="text-sm text-on-surface-variant">Total Script</span>
+<span class="font-headline-md text-sm text-white">12,450</span>
+</div>
+<div class="flex justify-between items-center bg-background p-3 rounded-lg border border-outline-variant">
+<span class="text-sm text-on-surface-variant flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-status-no-key animate-pulse"></span> Online
+                            </span>
+<span class="font-headline-md text-sm text-white">1,200</span>
+</div>
+</div>
+</div>
+</aside>
+</div>
+<!-- Executor Section -->
+<section class="pt-8 border-t border-outline-variant/30">
+<div class="flex items-center justify-between mb-8">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-white">Status Eksekutor</h2>
+<p class="text-on-surface-variant mt-1">Cek status real-time executor populer.</p>
+</div>
+<a class="text-tertiary hover:text-white transition-colors text-sm font-label-md flex items-center gap-1" href="#">
+                    Lihat Semua <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Exec 1 -->
+<div class="bg-surface-card rounded-xl border border-outline-variant p-5 flex items-center gap-4 hover:border-status-no-key/50 transition-colors">
+<div class="w-12 h-12 rounded-lg bg-background border border-outline-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-2xl text-on-surface">terminal</span>
+</div>
+<div class="flex-grow">
+<h4 class="font-headline-md text-base text-white">Fluxus</h4>
+<p class="text-xs text-on-surface-variant">Android / Windows</p>
+</div>
+<span class="bg-status-no-key/20 text-status-no-key px-2 py-1 rounded text-xs font-semibold flex items-center gap-1">
+                        Active
+                    </span>
+</div>
+<!-- Exec 2 -->
+<div class="bg-surface-card rounded-xl border border-outline-variant p-5 flex items-center gap-4 hover:border-status-verified/50 transition-colors">
+<div class="w-12 h-12 rounded-lg bg-background border border-outline-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-2xl text-on-surface">rocket_launch</span>
+</div>
+<div class="flex-grow">
+<h4 class="font-headline-md text-base text-white">Delta</h4>
+<p class="text-xs text-on-surface-variant">Android</p>
+</div>
+<span class="bg-status-verified/20 text-status-verified px-2 py-1 rounded text-xs font-semibold flex items-center gap-1">
+                        Updated
+                    </span>
+</div>
+<!-- Exec 3 -->
+<div class="bg-surface-card rounded-xl border border-outline-variant p-5 flex items-center gap-4 hover:border-error/50 transition-colors">
+<div class="w-12 h-12 rounded-lg bg-background border border-outline-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-2xl text-on-surface">water_drop</span>
+</div>
+<div class="flex-grow">
+<h4 class="font-headline-md text-base text-white">Hydrogen</h4>
+<p class="text-xs text-on-surface-variant">MacOS / Android</p>
+</div>
+<span class="bg-error/20 text-error px-2 py-1 rounded text-xs font-semibold flex items-center gap-1">
+                        Offline
+                    </span>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer (Shared Component) -->
+<footer class="w-full py-margin-desktop bg-surface-container-lowest border-t border-outline-variant/20 mt-16">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter px-gutter max-w-container-max mx-auto">
+<!-- Brand Column -->
+<div class="space-y-4 col-span-1 md:col-span-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-2xl" style="font-variation-settings: 'FILL' 1;">terminal</span>
+<span class="text-headline-md font-headline-md text-primary font-bold">ScriptHub</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant max-w-xs">
+                    Platform direktori skrip game terpercaya di Indonesia. Dibuat oleh komunitas, untuk komunitas.
+                </p>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-4">
+                    © 2024 ScriptHub Indonesia. Semua hak dilindungi.
+                </p>
+</div>
+<!-- Links Column 1 -->
+<div class="space-y-4">
+<h4 class="font-label-md text-white">Platform</h4>
+<ul class="space-y-2">
+<li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-tertiary transition-colors opacity-80 hover:opacity-100" href="#">Tentang Kami</a></li>
+<li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-tertiary transition-colors opacity-80 hover:opacity-100" href="#">Kebijakan Privasi</a></li>
+<li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-tertiary transition-colors opacity-80 hover:opacity-100" href="#">Ketentuan Layanan</a></li>
+</ul>
+</div>
+<!-- Links Column 2 -->
+<div class="space-y-4">
+<h4 class="font-label-md text-white">Komunitas</h4>
+<ul class="space-y-2">
+<li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-tertiary transition-colors opacity-80 hover:opacity-100" href="#">Hubungi Kami</a></li>
+<li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-tertiary transition-colors opacity-80 hover:opacity-100" href="#">Discord</a></li>
+<li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-tertiary transition-colors opacity-80 hover:opacity-100" href="#">Telegram</a></li>
+</ul>
+</div>
+</div>
+</footer>
+</body></html>

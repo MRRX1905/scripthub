@@ -1,0 +1,168 @@
+{
+  "version": 1,
+  "updatedAt": "2026-07-26T10:00:00+07:00",
+  "scripts": [
+    {
+      "id": "hoho-hub-v4",
+      "slug": "hoho-hub-v4",
+      "title": "Hoho Hub v4",
+      "game": "Blox Fruits",
+      "category": "Auto Farm",
+      "summary": "Auto Farm, ESP, Teleport, dan Raid dalam satu hub yang ringan.",
+      "description": "Hoho Hub v4 adalah antarmuka skrip untuk Blox Fruits yang memusatkan automasi progres, navigasi, dan utilitas permainan. Metadata dan kompatibilitasnya ditinjau oleh admin sebelum dipublikasikan.",
+      "features": [
+        "Auto farm level, boss, dan material",
+        "ESP pemain, item, dan NPC",
+        "Teleport lokasi penting",
+        "Automasi raid dan dungeon"
+      ],
+      "keySystem": "no-key",
+      "executors": ["Fluxus", "Delta", "Hydrogen"],
+      "thumbnail": "assets/hoho-hub.jpg",
+      "scriptCode": "loadstring(game:HttpGet('https://raw.githubusercontent.com/acsu123/HOHO_H/main/Loading_UI'))()",
+      "verifiedByAdmin": true,
+      "published": true,
+      "views": 125400,
+      "updatedAt": "2026-07-26T09:30:00+07:00"
+    },
+    {
+      "id": "zap-hub",
+      "slug": "zap-hub",
+      "title": "Zap Hub",
+      "game": "Pet Simulator 99",
+      "category": "Auto Farm",
+      "summary": "Auto hatch, farm coins, webhook, dan koleksi hadiah otomatis.",
+      "description": "Zap Hub merangkum alur farming Pet Simulator 99 dengan kontrol sederhana. Gunakan hanya pada lingkungan dan akun yang Anda pahami risikonya.",
+      "features": [
+        "Auto hatch dan auto farm coins",
+        "Webhook progres",
+        "Koleksi hadiah otomatis",
+        "Pengaturan performa perangkat"
+      ],
+      "keySystem": "key-required",
+      "executors": ["Fluxus", "Delta"],
+      "thumbnail": "assets/zap-hub.jpg",
+      "scriptCode": "-- Tempel kode Zap Hub yang sudah Anda tinjau di panel admin.",
+      "verifiedByAdmin": true,
+      "published": true,
+      "views": 98100,
+      "updatedAt": "2026-07-25T18:15:00+07:00"
+    },
+    {
+      "id": "vanta-doors",
+      "slug": "vanta-doors",
+      "title": "Vanta",
+      "game": "Doors",
+      "category": "Utility",
+      "summary": "Auto skip, monster ESP, dan utilitas navigasi untuk Doors.",
+      "description": "Vanta menyediakan lapisan utilitas yang ringkas untuk Doors, lengkap dengan opsi visual dan navigasi yang dapat diaktifkan sesuai kebutuhan.",
+      "features": [
+        "Monster dan item ESP",
+        "Auto skip untuk segmen tertentu",
+        "Peringatan entitas",
+        "Pengaturan visual ringan"
+      ],
+      "keySystem": "no-key",
+      "executors": ["Fluxus", "Delta", "Hydrogen"],
+      "thumbnail": "assets/vanta.jpg",
+      "scriptCode": "-- Tempel kode Vanta yang sudah Anda tinjau di panel admin.",
+      "verifiedByAdmin": true,
+      "published": true,
+      "views": 56700,
+      "updatedAt": "2026-07-24T21:45:00+07:00"
+    },
+    {
+      "id": "dragon-x",
+      "slug": "dragon-x",
+      "title": "Dragon X",
+      "game": "Blox Fruits",
+      "category": "Combat",
+      "summary": "Preset combat, sea event, dan distribusi stats yang fleksibel.",
+      "description": "Dragon X berfokus pada utilitas combat dan event laut. Setiap perubahan versi dicatat oleh admin agar pengunjung dapat memeriksa kompatibilitas terbaru.",
+      "features": [
+        "Preset combat",
+        "Automasi sea event",
+        "Distribusi stats",
+        "Teleport area"
+      ],
+      "keySystem": "key-required",
+      "executors": ["Fluxus", "Hydrogen"],
+      "thumbnail": "assets/dragon-x.jpg",
+      "scriptCode": "-- Tempel kode Dragon X yang sudah Anda tinjau di panel admin.",
+      "verifiedByAdmin": true,
+      "published": true,
+      "views": 42300,
+      "updatedAt": "2026-07-23T13:10:00+07:00"
+    },
+    {
+      "id": "nimbus",
+      "slug": "nimbus",
+      "title": "Nimbus",
+      "game": "Anime Adventures",
+      "category": "Auto Farm",
+      "summary": "Auto farm, infinite mode, dan ESP untuk alur progres yang konsisten.",
+      "description": "Nimbus adalah paket automasi untuk Anime Adventures dengan penekanan pada kontrol fitur yang jelas dan kompatibilitas lintas eksekutor.",
+      "features": [
+        "Auto farm stage",
+        "Infinite mode helper",
+        "Unit dan map ESP",
+        "Preset performa"
+      ],
+      "keySystem": "no-key",
+      "executors": ["Fluxus", "Delta", "Hydrogen"],
+      "thumbnail": "assets/nimbus.jpg",
+      "scriptCode": "-- Tempel kode Nimbus yang sudah Anda tinjau di panel admin.",
+      "verifiedByAdmin": true,
+      "published": true,
+      "views": 31200,
+      "updatedAt": "2026-07-22T08:25:00+07:00"
+    },
+    {
+      "id": "aether-utility",
+      "slug": "aether-utility",
+      "title": "Aether Utility",
+      "game": "Universal",
+      "category": "Utility",
+      "summary": "Draft paket utilitas universal untuk pengujian internal admin.",
+      "description": "Konten ini masih berupa draft dan tidak tampil pada halaman publik.",
+      "features": ["FPS preset", "UI utilities"],
+      "keySystem": "no-key",
+      "executors": ["Fluxus"],
+      "thumbnail": "assets/aether.jpg",
+      "scriptCode": "-- Draft internal",
+      "verifiedByAdmin": false,
+      "published": false,
+      "views": 0,
+      "updatedAt": "2026-07-26T07:00:00+07:00"
+    }
+  ],
+  "executors": [
+    {
+      "id": "fluxus",
+      "name": "Fluxus",
+      "status": "online",
+      "platforms": ["Android", "Windows"],
+      "compatibleScripts": 1248,
+      "description": "Eksekutor ringan dengan kompatibilitas luas dan pembaruan yang konsisten.",
+      "updatedAt": "2026-07-26T09:15:00+07:00"
+    },
+    {
+      "id": "delta",
+      "name": "Delta",
+      "status": "updated",
+      "platforms": ["Android"],
+      "compatibleScripts": 1197,
+      "description": "Eksekutor Android dengan alur instalasi ringkas dan dukungan skrip populer.",
+      "updatedAt": "2026-07-26T08:40:00+07:00"
+    },
+    {
+      "id": "hydrogen",
+      "name": "Hydrogen",
+      "status": "maintenance",
+      "platforms": ["macOS", "Android"],
+      "compatibleScripts": 932,
+      "description": "Eksekutor lintas perangkat yang sedang menjalani pemeliharaan kompatibilitas.",
+      "updatedAt": "2026-07-26T06:20:00+07:00"
+    }
+  ]
+}
