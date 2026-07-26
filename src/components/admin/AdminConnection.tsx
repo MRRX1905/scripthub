@@ -1,19 +1,16 @@
 import {
   Eye,
   EyeOff,
-  GitBranch,
   LockKeyhole,
   ShieldCheck,
+  UserRound,
 } from "lucide-react";
-import { FormEvent, useState } from "react";
-import { adminDefaults, REPOSITORY_KEY } from "../../lib/config";
+import { type FormEvent, useState } from "react";
+import { adminUsername } from "../../lib/supabase";
 
 export interface ConnectionFormValue {
-  owner: string;
-  repo: string;
-  branch: string;
-  contentPath: string;
-  token: string;
+  username: string;
+  password: string;
 }
 
 interface AdminConnectionProps {
@@ -22,44 +19,22 @@ interface AdminConnectionProps {
   onConnect: (value: ConnectionFormValue) => Promise<void>;
 }
 
-const loadSavedRepository = () => {
-  try {
-    const saved = localStorage.getItem(REPOSITORY_KEY);
-    return saved
-      ? (JSON.parse(saved) as Omit<ConnectionFormValue, "token">)
-      : null;
-  } catch {
-    return null;
-  }
-};
-
 export function AdminConnection({
   loading,
   error,
   onConnect,
 }: AdminConnectionProps) {
-  const savedRepository = loadSavedRepository();
-  const [showToken, setShowToken] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [form, setForm] = useState<ConnectionFormValue>({
-    owner: savedRepository?.owner || adminDefaults.owner,
-    repo: savedRepository?.repo || adminDefaults.repo,
-    branch: savedRepository?.branch || adminDefaults.branch,
-    contentPath:
-      savedRepository?.contentPath || adminDefaults.contentPath,
-    token: "",
+    username: adminUsername,
+    password: "",
   });
-
-  const update = (field: keyof ConnectionFormValue, value: string) =>
-    setForm((current) => ({ ...current, [field]: value }));
 
   const submit = async (event: FormEvent) => {
     event.preventDefault();
     await onConnect({
-      owner: form.owner.trim(),
-      repo: form.repo.trim(),
-      branch: form.branch.trim(),
-      contentPath: form.contentPath.trim(),
-      token: form.token.trim(),
+      username: form.username.trim(),
+      password: form.password,
     });
   };
 
@@ -74,78 +49,61 @@ export function AdminConnection({
         </div>
         <h1>Konsol Admin</h1>
         <p>
-          Hubungkan akun GitHub yang memiliki akses tulis ke repositori
-          ScriptHub.
+          Masuk sebagai administrator untuk mengelola seluruh konten ScriptHub
+          secara real-time.
         </p>
         <form onSubmit={submit}>
-          <div className="form-grid form-grid--two">
-            <label>
-              Owner
-              <input
-                required
-                value={form.owner}
-                onChange={(event) => update("owner", event.target.value)}
-                placeholder="username"
-              />
-            </label>
-            <label>
-              Repository
-              <input
-                required
-                value={form.repo}
-                onChange={(event) => update("repo", event.target.value)}
-                placeholder="scripthub-indonesia"
-              />
-            </label>
-            <label>
-              Branch
-              <input
-                required
-                value={form.branch}
-                onChange={(event) => update("branch", event.target.value)}
-                placeholder="main"
-              />
-            </label>
-            <label>
-              Path file konten
-              <input
-                required
-                value={form.contentPath}
-                onChange={(event) =>
-                  update("contentPath", event.target.value)
-                }
-                placeholder="public/data/content.json"
-              />
-            </label>
-          </div>
           <label>
-            Fine-grained personal access token
+            Username
             <span className="password-control">
-              <GitBranch size={17} aria-hidden="true" />
+              <UserRound size={17} aria-hidden="true" />
               <input
                 required
-                type={showToken ? "text" : "password"}
-                value={form.token}
-                onChange={(event) => update("token", event.target.value)}
-                placeholder="github_pat_..."
-                autoComplete="off"
+                value={form.username}
+                onChange={(event) =>
+                  setForm((current) => ({
+                    ...current,
+                    username: event.target.value,
+                  }))
+                }
+                autoComplete="username"
                 spellCheck={false}
+              />
+            </span>
+          </label>
+          <label>
+            Password
+            <span className="password-control">
+              <LockKeyhole size={17} aria-hidden="true" />
+              <input
+                required
+                type={showPassword ? "text" : "password"}
+                value={form.password}
+                onChange={(event) =>
+                  setForm((current) => ({
+                    ...current,
+                    password: event.target.value,
+                  }))
+                }
+                placeholder="Masukkan password admin"
+                autoComplete="current-password"
               />
               <button
                 type="button"
-                aria-label={showToken ? "Sembunyikan token" : "Tampilkan token"}
-                onClick={() => setShowToken((current) => !current)}
+                aria-label={
+                  showPassword ? "Sembunyikan password" : "Tampilkan password"
+                }
+                onClick={() => setShowPassword((current) => !current)}
               >
-                {showToken ? <EyeOff size={17} /> : <Eye size={17} />}
+                {showPassword ? <EyeOff size={17} /> : <Eye size={17} />}
               </button>
             </span>
           </label>
           <div className="admin-login__notice">
             <ShieldCheck size={18} aria-hidden="true" />
             <p>
-              Token harus memiliki permission <strong>Contents: Read and write</strong>.
-              Token hanya disimpan di session browser dan dihapus saat Anda
-              keluar atau menutup sesi.
+              Sesi login dienkripsi oleh Supabase. Pengunjung situs publik tidak
+              memiliki akses untuk menambah, mengubah, atau menghapus konten.
             </p>
           </div>
           {error ? (
@@ -158,8 +116,8 @@ export function AdminConnection({
             type="submit"
             disabled={loading}
           >
-            <GitBranch size={18} aria-hidden="true" />
-            {loading ? "Memverifikasi…" : "Hubungkan GitHub"}
+            <LockKeyhole size={18} aria-hidden="true" />
+            {loading ? "Memverifikasi…" : "Masuk sebagai Admin"}
           </button>
         </form>
       </section>

@@ -1,13 +1,15 @@
+import type { Session } from "@supabase/supabase-js";
 import {
   CheckCircle2,
   CircleDot,
   Clock3,
+  Database,
   ExternalLink,
   Eye,
   FileClock,
   Files,
   FileText,
-  GitBranch,
+  KeyRound,
   Menu,
   Pencil,
   Plus,
@@ -20,6 +22,7 @@ import {
   X,
 } from "lucide-react";
 import {
+  type FormEvent,
   useCallback,
   useEffect,
   useMemo,
@@ -37,24 +40,26 @@ import { ConfirmDialog } from "../components/admin/ConfirmDialog";
 import { ScriptEditor } from "../components/admin/ScriptEditor";
 import { ScriptPreview } from "../components/admin/ScriptPreview";
 import { KeyBadge } from "../components/StatusBadge";
+import {
+  changeAdminPassword,
+  getAdminSession,
+  loginAdmin,
+  logoutAdmin,
+} from "../lib/admin";
 import { assetUrl } from "../lib/assets";
 import {
-  adminDefaults,
-  REPOSITORY_KEY,
-  SESSION_KEY,
-} from "../lib/config";
+  fetchRealtimeContent,
+  removeScript,
+  subscribeToContent,
+  upsertExecutors,
+  upsertScript,
+} from "../lib/content";
 import { formatDate, formatNumber } from "../lib/format";
-import {
-  getAuthenticatedUser,
-  getContentFile,
-  getRepository,
-  updateContentFile,
-} from "../lib/github";
+import { adminUsername } from "../lib/supabase";
 import type {
   ContentData,
   ExecutorItem,
   ExecutorState,
-  GitHubConnection,
   ScriptItem,
 } from "../types";
 
@@ -63,122 +68,97 @@ interface AdminPageProps {
   onContentChange: (content: ContentData) => void;
 }
 
-const loadSession = () => {
-  try {
-    const saved = sessionStorage.getItem(SESSION_KEY);
-    return saved ? (JSON.parse(saved) as GitHubConnection) : null;
-  } catch {
-    return null;
-  }
-};
-
 export function AdminPage({
   initialContent,
   onContentChange,
 }: AdminPageProps) {
-  const [connection, setConnection] = useState<GitHubConnection | null>(null);
+  const [session, setSession] = useState<Session | null>(null);
   const [content, setContent] = useState<ContentData | null>(initialContent);
-  const [sha, setSha] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const [commitUrl, setCommitUrl] = useState("");
 
-  const connect = useCallback(
-    async (value: ConnectionFormValue, restoredLogin?: string) => {
-      setLoading(true);
-      setError("");
-      try {
-        const [user, repository] = await Promise.all([
-          getAuthenticatedUser(value.token),
-          getRepository(value.owner, value.repo, value.token),
-        ]);
-        const allowedLogin = adminDefaults.allowedLogin.trim().toLowerCase();
-        if (allowedLogin && user.login.toLowerCase() !== allowedLogin) {
-          throw new Error(
-            `Akun @${user.login} bukan admin yang dikonfigurasi untuk situs ini.`,
+  useEffect(() => {
+    let active = true;
+    void getAdminSession()
+      .then((savedSession) => {
+        if (active) setSession(savedSession);
+      })
+      .catch((reason: unknown) => {
+        if (active) {
+          setError(
+            reason instanceof Error
+              ? reason.message
+              : "Sesi admin tidak dapat diperiksa.",
           );
         }
-        if (repository.permissions?.push === false) {
-          throw new Error("Akun GitHub ini tidak memiliki akses tulis.");
-        }
+      })
+      .finally(() => {
+        if (active) setLoading(false);
+      });
 
-        const resolvedConnection: GitHubConnection = {
-          ...value,
-          branch: value.branch || repository.default_branch,
-          login: restoredLogin || user.login,
-        };
-        const file = await getContentFile(resolvedConnection);
+    return () => {
+      active = false;
+    };
+  }, []);
 
-        setConnection(resolvedConnection);
-        setContent(file.data);
-        setSha(file.sha);
-        onContentChange(file.data);
-        sessionStorage.setItem(
-          SESSION_KEY,
-          JSON.stringify(resolvedConnection),
-        );
-        localStorage.setItem(
-          REPOSITORY_KEY,
-          JSON.stringify({
-            owner: resolvedConnection.owner,
-            repo: resolvedConnection.repo,
-            branch: resolvedConnection.branch,
-            contentPath: resolvedConnection.contentPath,
-          }),
-        );
-      } catch (reason) {
-        sessionStorage.removeItem(SESSION_KEY);
-        setError(
-          reason instanceof Error
-            ? reason.message
-            : "Koneksi GitHub tidak berhasil.",
-        );
-      } finally {
-        setLoading(false);
-      }
+  const applyContent = useCallback(
+    (nextContent: ContentData) => {
+      setContent(nextContent);
+      onContentChange(nextContent);
     },
     [onContentChange],
   );
 
-  useEffect(() => {
-    const saved = loadSession();
-    if (!saved) return;
-    void connect(
-      {
-        owner: saved.owner,
-        repo: saved.repo,
-        branch: saved.branch,
-        contentPath: saved.contentPath,
-        token: saved.token,
-      },
-      saved.login,
-    );
-  }, [connect]);
+  const refresh = useCallback(async () => {
+    const nextContent = await fetchRealtimeContent();
+    applyContent(nextContent);
+  }, [applyContent]);
 
-  const commitContent = async (next: ContentData, message: string) => {
-    if (!connection || !sha) {
-      throw new Error("Sesi admin belum terhubung.");
+  useEffect(() => {
+    if (!session) return;
+
+    void refresh().catch((reason: unknown) => {
+      setError(
+        reason instanceof Error
+          ? reason.message
+          : "Konten admin tidak dapat dimuat.",
+      );
+    });
+
+    return subscribeToContent(applyContent, (reason) => {
+      setError(reason.message);
+    });
+  }, [applyContent, refresh, session]);
+
+  const connect = async (value: ConnectionFormValue) => {
+    setLoading(true);
+    setError("");
+    try {
+      setSession(await loginAdmin(value.username, value.password));
+    } catch (reason) {
+      setError(
+        reason instanceof Error
+          ? reason.message
+          : "Login admin tidak berhasil.",
+      );
+    } finally {
+      setLoading(false);
     }
+  };
+
+  const runMutation = async (
+    action: () => Promise<void>,
+    nextContent: ContentData,
+    message: string,
+  ) => {
     setSaving(true);
     setError("");
     try {
-      const stampedContent = {
-        ...next,
-        updatedAt: new Date().toISOString(),
-      };
-      const result = await updateContentFile(
-        connection,
-        stampedContent,
-        sha,
-        message,
-      );
-      setSha(result.sha);
-      setCommitUrl(result.commitUrl);
-      setContent(stampedContent);
-      onContentChange(stampedContent);
-      setSuccess("Perubahan berhasil dikomit ke GitHub.");
+      await action();
+      applyContent(nextContent);
+      setSuccess(message);
       window.setTimeout(() => setSuccess(""), 4000);
     } catch (reason) {
       const message =
@@ -192,57 +172,122 @@ export function AdminPage({
     }
   };
 
-  const logout = () => {
-    sessionStorage.removeItem(SESSION_KEY);
-    setConnection(null);
-    setSha("");
-    setCommitUrl("");
+  const saveScript = async (script: ScriptItem) => {
+    if (!content) return;
+    const exists = content.scripts.some((item) => item.id === script.id);
+    const nextContent = {
+      ...content,
+      updatedAt: script.updatedAt,
+      scripts: exists
+        ? content.scripts.map((item) =>
+            item.id === script.id ? script : item,
+          )
+        : [script, ...content.scripts],
+    };
+    await runMutation(
+      () => upsertScript(script),
+      nextContent,
+      exists ? "Skrip berhasil diperbarui." : "Skrip berhasil ditambahkan.",
+    );
+  };
+
+  const deleteScript = async (script: ScriptItem) => {
+    if (!content) return;
+    const nextContent = {
+      ...content,
+      updatedAt: new Date().toISOString(),
+      scripts: content.scripts.filter((item) => item.id !== script.id),
+    };
+    await runMutation(
+      () => removeScript(script.id),
+      nextContent,
+      "Skrip berhasil dihapus dari website.",
+    );
+  };
+
+  const saveExecutors = async (items: ExecutorItem[]) => {
+    if (!content) return;
+    const timestamp = new Date().toISOString();
+    const executors = items.map((item) => ({
+      ...item,
+      updatedAt: timestamp,
+    }));
+    await runMutation(
+      () => upsertExecutors(executors),
+      { ...content, executors, updatedAt: timestamp },
+      "Status eksekutor berhasil diperbarui.",
+    );
+  };
+
+  const logout = async () => {
+    try {
+      await logoutAdmin();
+    } finally {
+      setSession(null);
+    }
     setSuccess("");
     setError("");
   };
 
-  if (!connection || !content) {
+  if (!session) {
     return (
       <AdminConnection loading={loading} error={error} onConnect={connect} />
     );
   }
 
+  if (!content) {
+    return (
+      <main className="admin-login">
+        <section className="admin-login__card page-state" aria-live="polite">
+          <div className="loading-mark" aria-hidden="true" />
+          <p>Memuat konsol admin…</p>
+        </section>
+      </main>
+    );
+  }
+
   return (
     <AdminDashboard
-      connection={connection}
+      username={adminUsername}
       content={content}
       saving={saving}
       error={error}
       success={success}
-      commitUrl={commitUrl}
       onDismissError={() => setError("")}
-      onCommit={commitContent}
-      onLogout={logout}
+      onSaveScript={saveScript}
+      onDeleteScript={deleteScript}
+      onSaveExecutors={saveExecutors}
+      onSuccess={setSuccess}
+      onLogout={() => void logout()}
     />
   );
 }
 
 interface AdminDashboardProps {
-  connection: GitHubConnection;
+  username: string;
   content: ContentData;
   saving: boolean;
   error: string;
   success: string;
-  commitUrl: string;
   onDismissError: () => void;
-  onCommit: (content: ContentData, message: string) => Promise<void>;
+  onSaveScript: (script: ScriptItem) => Promise<void>;
+  onDeleteScript: (script: ScriptItem) => Promise<void>;
+  onSaveExecutors: (items: ExecutorItem[]) => Promise<void>;
+  onSuccess: (message: string) => void;
   onLogout: () => void;
 }
 
 function AdminDashboard({
-  connection,
+  username,
   content,
   saving,
   error,
   success,
-  commitUrl,
   onDismissError,
-  onCommit,
+  onSaveScript,
+  onDeleteScript,
+  onSaveExecutors,
+  onSuccess,
   onLogout,
 }: AdminDashboardProps) {
   const [section, setSection] = useState<AdminSection>("scripts");
@@ -281,30 +326,13 @@ function AdminDashboard({
   };
 
   const saveScript = async (script: ScriptItem) => {
-    const exists = content.scripts.some((item) => item.id === script.id);
-    const nextScripts = exists
-      ? content.scripts.map((item) => (item.id === script.id ? script : item))
-      : [script, ...content.scripts];
-    await onCommit(
-      { ...content, scripts: nextScripts },
-      exists
-        ? `content: perbarui ${script.title}`
-        : `content: tambah ${script.title}`,
-    );
+    await onSaveScript(script);
     closeEditor();
   };
 
   const deleteScript = async () => {
     if (!deletingScript) return;
-    await onCommit(
-      {
-        ...content,
-        scripts: content.scripts.filter(
-          (script) => script.id !== deletingScript.id,
-        ),
-      },
-      `content: hapus ${deletingScript.title}`,
-    );
+    await onDeleteScript(deletingScript);
     setDeletingScript(null);
   };
 
@@ -332,10 +360,10 @@ function AdminDashboard({
             <ExternalLink size={14} aria-hidden="true" />
           </a>
           <div className="github-status">
-            <GitBranch size={18} aria-hidden="true" />
+            <Database size={18} aria-hidden="true" />
             <span>
-              <strong>GitHub terhubung</strong>
-              {connection.owner}/{connection.repo}
+              <strong>Real-time aktif</strong>
+              Login sebagai @{username}
             </span>
             <i aria-label="Online" />
           </div>
@@ -372,11 +400,15 @@ function AdminDashboard({
             <ExecutorManager
               content={content}
               saving={saving}
-              onCommit={onCommit}
+              onSave={onSaveExecutors}
             />
           ) : null}
           {section === "settings" ? (
-            <AdminSettings connection={connection} content={content} />
+            <AdminSettings
+              username={username}
+              content={content}
+              onSuccess={onSuccess}
+            />
           ) : null}
         </div>
       </div>
@@ -399,7 +431,7 @@ function AdminDashboard({
       {deletingScript ? (
         <ConfirmDialog
           title="Hapus skrip"
-          description={`Yakin ingin menghapus “${deletingScript.title}”? Perubahan akan langsung dikomit ke GitHub.`}
+          description={`Yakin ingin menghapus “${deletingScript.title}”? Konten akan langsung hilang dari website publik.`}
           busy={saving}
           onCancel={() => setDeletingScript(null)}
           onConfirm={deleteScript}
@@ -413,11 +445,6 @@ function AdminDashboard({
             <strong>Sukses</strong>
             {success}
           </span>
-          {commitUrl ? (
-            <a href={commitUrl} target="_blank" rel="noreferrer">
-              Lihat commit
-            </a>
-          ) : null}
         </div>
       ) : null}
     </div>
@@ -447,7 +474,7 @@ function AdminOverview({
         <div>
           <p>Ringkasan</p>
           <h1>Selamat datang kembali</h1>
-          <span>Ringkasan konten yang dikelola dari satu repositori.</span>
+          <span>Ringkasan konten yang tersinkron secara real-time.</span>
         </div>
         <button
           className="button button--primary"
@@ -755,11 +782,11 @@ function ScriptManager({
 function ExecutorManager({
   content,
   saving,
-  onCommit,
+  onSave,
 }: {
   content: ContentData;
   saving: boolean;
-  onCommit: (content: ContentData, message: string) => Promise<void>;
+  onSave: (items: ExecutorItem[]) => Promise<void>;
 }) {
   const [items, setItems] = useState(() =>
     content.executors.map((item) => ({ ...item })),
@@ -781,16 +808,7 @@ function ExecutorManager({
     );
 
   const save = async () => {
-    await onCommit(
-      {
-        ...content,
-        executors: items.map((item) => ({
-          ...item,
-          updatedAt: new Date().toISOString(),
-        })),
-      },
-      "content: perbarui status eksekutor",
-    );
+    await onSave(items);
   };
 
   return (
@@ -871,69 +889,161 @@ function ExecutorManager({
 }
 
 function AdminSettings({
-  connection,
+  username,
   content,
+  onSuccess,
 }: {
-  connection: GitHubConnection;
+  username: string;
   content: ContentData;
+  onSuccess: (message: string) => void;
 }) {
-  const repositoryUrl = `https://github.com/${connection.owner}/${connection.repo}`;
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [nextPassword, setNextPassword] = useState("");
+  const [confirmation, setConfirmation] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
+
+  const submitPassword = async (event: FormEvent) => {
+    event.preventDefault();
+    setError("");
+
+    if (nextPassword.length < 8) {
+      setError("Password baru minimal 8 karakter.");
+      return;
+    }
+    if (nextPassword !== confirmation) {
+      setError("Konfirmasi password baru tidak sama.");
+      return;
+    }
+
+    setBusy(true);
+    try {
+      await changeAdminPassword(currentPassword, nextPassword);
+      setCurrentPassword("");
+      setNextPassword("");
+      setConfirmation("");
+      onSuccess("Password admin berhasil diganti.");
+    } catch (reason) {
+      setError(
+        reason instanceof Error
+          ? reason.message
+          : "Password tidak berhasil diganti.",
+      );
+    } finally {
+      setBusy(false);
+    }
+  };
+
   return (
     <>
       <div className="admin-page-heading">
         <div>
           <p>Pengaturan</p>
-          <h1>Repository &amp; Publikasi</h1>
-          <span>Detail koneksi yang digunakan selama sesi ini.</span>
+          <h1>Akun &amp; Sinkronisasi</h1>
+          <span>Kelola keamanan admin dan status backend real-time.</span>
         </div>
       </div>
-      <section className="admin-panel settings-panel">
-        <div className="settings-panel__icon">
-          <GitBranch size={28} aria-hidden="true" />
-        </div>
-        <div>
-          <h2>
-            {connection.owner}/{connection.repo}
-          </h2>
-          <p>
-            Terhubung sebagai <strong>@{connection.login}</strong>
-          </p>
-        </div>
-        <dl>
-          <div>
-            <dt>Branch</dt>
-            <dd>{connection.branch}</dd>
+      <div className="settings-stack">
+        <section className="admin-panel settings-panel">
+          <div className="settings-panel__icon">
+            <Database size={28} aria-hidden="true" />
           </div>
           <div>
-            <dt>Path konten</dt>
-            <dd>{connection.contentPath}</dd>
+            <h2>Database real-time</h2>
+            <p>
+              Terhubung sebagai <strong>@{username}</strong>
+            </p>
+          </div>
+          <span className="settings-live">
+            <i aria-hidden="true" />
+            Online
+          </span>
+          <dl>
+            <div>
+              <dt>Hak akses</dt>
+              <dd>Administrator</dd>
+            </div>
+            <div>
+              <dt>Sinkronisasi</dt>
+              <dd>Real-time</dd>
+            </div>
+            <div>
+              <dt>Versi schema</dt>
+              <dd>v{content.version}</dd>
+            </div>
+            <div>
+              <dt>Update terakhir</dt>
+              <dd>{formatDate(content.updatedAt)}</dd>
+            </div>
+          </dl>
+          <div className="settings-panel__notice">
+            <Settings size={18} aria-hidden="true" />
+            <p>
+              Setiap tambah, edit, hapus, dan perubahan status langsung
+              disinkronkan ke seluruh pengunjung tanpa menunggu deploy ulang.
+            </p>
+          </div>
+        </section>
+
+        <section className="admin-panel settings-panel settings-panel--password">
+          <div className="settings-panel__icon">
+            <KeyRound size={28} aria-hidden="true" />
           </div>
           <div>
-            <dt>Versi schema</dt>
-            <dd>v{content.version}</dd>
+            <h2>Ganti password admin</h2>
+            <p>Gunakan minimal 8 karakter dan jangan bagikan ke orang lain.</p>
           </div>
-          <div>
-            <dt>Update terakhir</dt>
-            <dd>{formatDate(content.updatedAt)}</dd>
-          </div>
-        </dl>
-        <a
-          className="button button--secondary"
-          href={repositoryUrl}
-          target="_blank"
-          rel="noreferrer"
-        >
-          Buka repository
-          <ExternalLink size={15} aria-hidden="true" />
-        </a>
-        <div className="settings-panel__notice">
-          <Settings size={18} aria-hidden="true" />
-          <p>
-            Token tidak pernah ditulis ke repository. Untuk mengganti repository
-            atau token, pilih “Keluar”, lalu hubungkan kembali.
-          </p>
-        </div>
-      </section>
+          <form className="settings-password-form" onSubmit={submitPassword}>
+            <label>
+              Password saat ini
+              <input
+                required
+                type="password"
+                value={currentPassword}
+                onChange={(event) => setCurrentPassword(event.target.value)}
+                autoComplete="current-password"
+              />
+            </label>
+            <div className="form-grid form-grid--two">
+              <label>
+                Password baru
+                <input
+                  required
+                  minLength={8}
+                  type="password"
+                  value={nextPassword}
+                  onChange={(event) => setNextPassword(event.target.value)}
+                  autoComplete="new-password"
+                />
+              </label>
+              <label>
+                Ulangi password baru
+                <input
+                  required
+                  minLength={8}
+                  type="password"
+                  value={confirmation}
+                  onChange={(event) => setConfirmation(event.target.value)}
+                  autoComplete="new-password"
+                />
+              </label>
+            </div>
+            {error ? (
+              <p className="form-error" role="alert">
+                {error}
+              </p>
+            ) : null}
+            <button
+              className="button button--primary"
+              type="submit"
+              disabled={busy}
+            >
+              <KeyRound size={16} aria-hidden="true" />
+              {busy ? "Mengganti…" : "Ganti Password"}
+            </button>
+          </form>
+        </section>
+      </div>
     </>
   );
 }

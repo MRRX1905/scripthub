@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
 import { PublicFooter } from "./components/PublicFooter";
 import { PublicHeader } from "./components/PublicHeader";
+import {
+  fetchRealtimeContent,
+  subscribeToContent,
+} from "./lib/content";
 import { routePath, useHashLocation } from "./lib/router";
+import { isSupabaseConfigured } from "./lib/supabase";
 import { AboutPage } from "./pages/AboutPage";
 import { AdminPage } from "./pages/AdminPage";
 import { CatalogPage } from "./pages/CatalogPage";
@@ -20,16 +25,24 @@ export function App() {
   useEffect(() => {
     let active = true;
 
-    fetch(`${import.meta.env.BASE_URL}data/content.json`, { cache: "no-cache" })
-      .then(async (response) => {
-        if (!response.ok) {
-          throw new Error("Konten tidak dapat dimuat.");
-        }
-        return (await response.json()) as ContentData;
-      })
+    const loadBundledContent = async () => {
+      const response = await fetch(
+        `${import.meta.env.BASE_URL}data/content.json`,
+        { cache: "no-cache" },
+      );
+      if (!response.ok) throw new Error("Konten tidak dapat dimuat.");
+      return (await response.json()) as ContentData;
+    };
+
+    const initialRequest = isSupabaseConfigured
+      ? fetchRealtimeContent().catch(loadBundledContent)
+      : loadBundledContent();
+
+    void initialRequest
       .then((data) => {
         if (active) {
           setContent(data);
+          setError("");
         }
       })
       .catch((reason: unknown) => {
@@ -42,8 +55,23 @@ export function App() {
         }
       });
 
+    const unsubscribe = isSupabaseConfigured
+      ? subscribeToContent(
+          (nextContent) => {
+            if (active) {
+              setContent(nextContent);
+              setError("");
+            }
+          },
+          (reason) => {
+            console.error("Sinkronisasi konten gagal:", reason);
+          },
+        )
+      : () => undefined;
+
     return () => {
       active = false;
+      unsubscribe();
     };
   }, []);
 
@@ -56,7 +84,7 @@ export function App() {
     return (
       <AdminPage
         initialContent={content}
-        onContentChange={(nextContent) => setContent(nextContent)}
+        onContentChange={setContent}
       />
     );
   }

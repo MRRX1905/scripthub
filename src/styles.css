@@ -2987,6 +2987,52 @@ input[type="checkbox"] {
   grid-column: 1 / -1;
 }
 
+.settings-stack {
+  display: grid;
+  gap: 18px;
+}
+
+.settings-live {
+  display: inline-flex;
+  padding: 7px 10px;
+  align-items: center;
+  gap: 7px;
+  border: 1px solid rgba(47, 219, 131, 0.24);
+  border-radius: 999px;
+  background: rgba(47, 219, 131, 0.08);
+  color: var(--green);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.settings-live i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 8px rgba(47, 219, 131, 0.7);
+}
+
+.settings-password-form {
+  display: grid;
+  padding-top: 18px;
+  grid-column: 1 / -1;
+  gap: 15px;
+  border-top: 1px solid var(--border-soft);
+}
+
+.settings-password-form label {
+  display: grid;
+  gap: 7px;
+  color: var(--text-soft);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.settings-password-form .button {
+  justify-self: start;
+}
+
 .admin-sidebar__scrim {
   display: none;
 }
@@ -3420,6 +3466,15 @@ input[type="checkbox"] {
   }
 
   .settings-panel dl {
+    grid-template-columns: 1fr;
+  }
+
+  .settings-live {
+    justify-self: start;
+    grid-column: 1 / -1;
+  }
+
+  .settings-password-form .form-grid--two {
     grid-template-columns: 1fr;
   }
 }
