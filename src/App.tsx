@@ -9,11 +9,12 @@ import {
 import { slugify } from "./lib/format";
 import { routePath, useHashLocation } from "./lib/router";
 import { isSupabaseConfigured } from "./lib/supabase";
-import { AboutPage } from "./pages/AboutPage";
 import { AdminPage } from "./pages/AdminPage";
 import { CatalogPage } from "./pages/CatalogPage";
 import { ExecutorsPage } from "./pages/ExecutorsPage";
 import { HomePage } from "./pages/HomePage";
+import { InboxPage } from "./pages/InboxPage";
+import { InformationPage } from "./pages/InformationPage";
 import { NotFoundPage } from "./pages/NotFoundPage";
 import { ScriptDetailPage } from "./pages/ScriptDetailPage";
 import type { ContentData } from "./types";
@@ -162,8 +163,10 @@ export function App() {
         scripts={publishedScripts}
       />
     );
-  } else if (path === "/tentang") {
-    page = <AboutPage />;
+  } else if (path === "/inbox") {
+    page = <InboxPage />;
+  } else if (path === "/informasi" || path === "/tentang") {
+    page = <InformationPage />;
   } else {
     page = <NotFoundPage />;
   }

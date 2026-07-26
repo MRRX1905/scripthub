@@ -35,6 +35,7 @@ import {
   type AdminSection,
 } from "../components/admin/AdminSidebar";
 import { AdminAnalytics } from "../components/admin/AdminAnalytics";
+import { InboxManager } from "../components/admin/InboxManager";
 import { ConfirmDialog } from "../components/admin/ConfirmDialog";
 import {
   CategoryManager,
@@ -406,6 +407,7 @@ function AdminDashboard({
           {section === "overview" ? (
             <AdminOverview content={content} onCreate={openCreate} />
           ) : null}
+          {section === "inbox" ? <InboxManager /> : null}
           {section === "scripts" || section === "create" ? (
             <ScriptManager
               content={content}

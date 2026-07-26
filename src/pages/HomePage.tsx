@@ -48,12 +48,15 @@ export function HomePage({ scripts, executors }: HomePageProps) {
         <div className="hero__glow" aria-hidden="true" />
         <div className="hero__content">
           <h1>
-            Temukan Skrip Game
-            <span>dengan Cepat</span>
+            Temukan Skrip yang
+            <span>Telah Diuji</span>
           </h1>
           <p>
-            Direktori skrip game yang dikurasi untuk komunitas gaming
-            Indonesia.
+            Website ini dibuat untuk membantu Anda menemukan skrip yang telah
+            diuji langsung oleh SHAKHAI. Jika Anda memiliki skrip dan ingin
+            membagikannya, silakan kirim melalui{" "}
+            <a href="#/inbox">Inbox Admin</a>. Setiap kiriman akan ditinjau dan
+            diuji terlebih dahulu sebelum dipublikasikan.
           </p>
           <form className="hero-search" onSubmit={submitSearch}>
             <Search size={20} aria-hidden="true" />
@@ -168,15 +171,15 @@ export function HomePage({ scripts, executors }: HomePageProps) {
         <div>
           <h2 id="trust-title">Transparan &amp; Terkurasi</h2>
           <p>
-            Setiap entri diperiksa admin sebelum diterbitkan. Status ini bukan
-            jaminan mutlak keamanan; selalu tinjau kode dan pahami risiko alat
-            pihak ketiga sebelum menjalankannya.
+            Setiap entri ditinjau dan diuji langsung oleh SHAKHAI sebelum
+            diterbitkan. Status ini bukan jaminan mutlak keamanan; selalu tinjau
+            kode dan pahami risiko alat pihak ketiga sebelum menjalankannya.
           </p>
         </div>
         <ul>
           <li>
             <Check size={15} aria-hidden="true" />
-            Metadata ditinjau manual
+            Ditinjau langsung oleh SHAKHAI
           </li>
           <li>
             <Check size={15} aria-hidden="true" />

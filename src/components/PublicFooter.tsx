@@ -7,7 +7,7 @@ export function PublicFooter() {
         <div className="public-footer__brand">
           <Brand />
           <p>
-            Direktori skrip game yang dikurasi untuk komunitas gaming Indonesia.
+            Direktori skrip game yang ditinjau dan dikelola oleh SHAKHAI.
           </p>
           <small>© 2026 ScriptHub Indonesia. Semua hak dilindungi.</small>
         </div>
@@ -16,12 +16,13 @@ export function PublicFooter() {
           <a href="#/">Beranda</a>
           <a href="#/katalog">Katalog Skrip</a>
           <a href="#/eksekutor">Eksekutor</a>
-          <a href="#/tentang">Tentang</a>
+          <a href="#/inbox">Inbox</a>
+          <a href="#/informasi">Informasiku</a>
         </div>
         <div>
           <h2>Lainnya</h2>
-          <a href="#/tentang">Kebijakan publikasi</a>
-          <a href="#/tentang">Ketentuan penggunaan</a>
+          <a href="#/informasi">Kebijakan publikasi</a>
+          <a href="#/informasi">Ketentuan penggunaan</a>
           <a className="public-footer__admin" href="#/admin">
             Admin
           </a>

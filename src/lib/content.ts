@@ -81,7 +81,7 @@ const toExecutor = (row: ExecutorRow): ExecutorItem => ({
   updatedAt: row.updated_at,
 });
 
-const toScriptRow = (script: ScriptItem): ScriptRow => ({
+const toScriptRow = (script: ScriptItem): Omit<ScriptRow, "views"> => ({
   id: script.id,
   slug: script.slug,
   title: script.title,
@@ -100,7 +100,6 @@ const toScriptRow = (script: ScriptItem): ScriptRow => ({
   script_code: script.scriptCode,
   verified_by_admin: script.verifiedByAdmin,
   published: script.published,
-  views: script.views,
   updated_at: script.updatedAt,
 });
 

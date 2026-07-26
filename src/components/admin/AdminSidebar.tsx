@@ -2,6 +2,7 @@ import {
   FilePlus2,
   Files,
   Gauge,
+  Inbox,
   LogOut,
   Settings,
   ShieldCheck,
@@ -12,6 +13,7 @@ import { Brand } from "../Brand";
 
 export type AdminSection =
   | "overview"
+  | "inbox"
   | "scripts"
   | "create"
   | "executors"
@@ -28,6 +30,7 @@ interface AdminSidebarProps {
 
 const items = [
   { id: "overview" as const, label: "Ringkasan", icon: Gauge },
+  { id: "inbox" as const, label: "Inbox", icon: Inbox },
   { id: "scripts" as const, label: "Kelola Skrip", icon: Files },
   { id: "create" as const, label: "Tambah Skrip", icon: FilePlus2 },
   { id: "executors" as const, label: "Kelola Eksekutor", icon: ShieldCheck },

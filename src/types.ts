@@ -73,6 +73,17 @@ export interface AnalyticsDashboardData {
   updatedAt: string;
 }
 
+export type SubmissionStatus = "new" | "reviewed";
+
+export interface ScriptSubmission {
+  id: number;
+  senderName: string;
+  scriptContent: string;
+  status: SubmissionStatus;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface GitHubConnection {
   owner: string;
   repo: string;

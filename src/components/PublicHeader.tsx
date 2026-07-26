@@ -6,7 +6,8 @@ const links = [
   { label: "Beranda", href: "#/" },
   { label: "Katalog Skrip", href: "#/katalog" },
   { label: "Eksekutor", href: "#/eksekutor" },
-  { label: "Tentang", href: "#/tentang" },
+  { label: "Inbox", href: "#/inbox" },
+  { label: "Informasiku", href: "#/informasi" },
 ];
 
 interface PublicHeaderProps {
@@ -19,6 +20,8 @@ export function PublicHeader({ path }: PublicHeaderProps) {
   const activeHref =
     path.startsWith("/skrip/") || path === "/katalog"
       ? "#/katalog"
+      : path === "/tentang"
+        ? "#/informasi"
       : `#${path}`;
 
   return (
