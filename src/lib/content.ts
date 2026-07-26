@@ -1,5 +1,10 @@
 import type { RealtimeChannel } from "@supabase/supabase-js";
-import type { ContentData, ExecutorItem, ScriptItem } from "../types";
+import type {
+  CategoryItem,
+  ContentData,
+  ExecutorItem,
+  ScriptItem,
+} from "../types";
 import { requireSupabase, supabase } from "./supabase";
 
 let realtimeSubscriptionId = 0;
@@ -14,12 +19,19 @@ interface ScriptRow {
   description: string;
   features: string[];
   key_system: ScriptItem["keySystem"];
+  key_url: string | null;
   executors: string[];
   thumbnail: string;
   script_code: string;
   verified_by_admin: boolean;
   published: boolean;
   views: number;
+  updated_at: string;
+}
+
+interface CategoryRow {
+  id: string;
+  name: string;
   updated_at: string;
 }
 
@@ -43,12 +55,19 @@ const toScript = (row: ScriptRow): ScriptItem => ({
   description: row.description,
   features: row.features ?? [],
   keySystem: row.key_system,
+  keyUrl: row.key_url ?? "",
   executors: row.executors ?? [],
   thumbnail: row.thumbnail,
   scriptCode: row.script_code,
   verifiedByAdmin: row.verified_by_admin,
   published: row.published,
   views: Number(row.views),
+  updatedAt: row.updated_at,
+});
+
+const toCategory = (row: CategoryRow): CategoryItem => ({
+  id: row.id,
+  name: row.name,
   updatedAt: row.updated_at,
 });
 
@@ -72,6 +91,10 @@ const toScriptRow = (script: ScriptItem): ScriptRow => ({
   description: script.description,
   features: script.features,
   key_system: script.keySystem,
+  key_url:
+    script.keySystem === "key-required" && script.keyUrl
+      ? script.keyUrl
+      : null,
   executors: script.executors,
   thumbnail: script.thumbnail,
   script_code: script.scriptCode,
@@ -93,29 +116,37 @@ const toExecutorRow = (executor: ExecutorItem): ExecutorRow => ({
 
 export async function fetchRealtimeContent(): Promise<ContentData> {
   const client = requireSupabase();
-  const [scriptsResult, executorsResult] = await Promise.all([
+  const [scriptsResult, executorsResult, categoriesResult] = await Promise.all([
     client.from("scripts").select("*").order("updated_at", { ascending: false }),
     client
       .from("executors")
+      .select("*")
+      .order("name", { ascending: true }),
+    client
+      .from("categories")
       .select("*")
       .order("name", { ascending: true }),
   ]);
 
   if (scriptsResult.error) throw scriptsResult.error;
   if (executorsResult.error) throw executorsResult.error;
+  if (categoriesResult.error) throw categoriesResult.error;
 
   const scripts = (scriptsResult.data as ScriptRow[]).map(toScript);
   const executors = (executorsResult.data as ExecutorRow[]).map(toExecutor);
+  const categories = (categoriesResult.data as CategoryRow[]).map(toCategory);
   const timestamps = [
     ...scripts.map((item) => item.updatedAt),
     ...executors.map((item) => item.updatedAt),
+    ...categories.map((item) => item.updatedAt),
   ];
 
   return {
-    version: 2,
+    version: 3,
     updatedAt: timestamps.sort().at(-1) || new Date().toISOString(),
     scripts,
     executors,
+    categories,
   };
 }
 
@@ -136,10 +167,41 @@ export async function removeScript(id: string) {
   if (error) throw error;
 }
 
-export async function upsertExecutors(executors: ExecutorItem[]) {
-  const { error } = await requireSupabase()
-    .from("executors")
-    .upsert(executors.map(toExecutorRow), { onConflict: "id" });
+export async function saveExecutor(executor: ExecutorItem) {
+  const row = toExecutorRow(executor);
+  const { error } = await requireSupabase().rpc("admin_save_executor", {
+    p_id: row.id,
+    p_name: row.name,
+    p_status: row.status,
+    p_platforms: row.platforms,
+    p_compatible_scripts: row.compatible_scripts,
+    p_description: row.description,
+  });
+
+  if (error) throw error;
+}
+
+export async function deleteExecutor(id: string) {
+  const { error } = await requireSupabase().rpc("admin_delete_executor", {
+    p_id: id,
+  });
+
+  if (error) throw error;
+}
+
+export async function saveCategory(category: CategoryItem) {
+  const { error } = await requireSupabase().rpc("admin_save_category", {
+    p_id: category.id,
+    p_name: category.name,
+  });
+
+  if (error) throw error;
+}
+
+export async function deleteCategory(id: string) {
+  const { error } = await requireSupabase().rpc("admin_delete_category", {
+    p_id: id,
+  });
 
   if (error) throw error;
 }
@@ -182,6 +244,11 @@ export function subscribeToContent(
     .on(
       "postgres_changes",
       { event: "*", schema: "public", table: "executors" },
+      refresh,
+    )
+    .on(
+      "postgres_changes",
+      { event: "*", schema: "public", table: "categories" },
       refresh,
     )
     .subscribe();

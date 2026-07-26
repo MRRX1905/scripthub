@@ -5,6 +5,7 @@ import {
   LogOut,
   Settings,
   ShieldCheck,
+  Tags,
   X,
 } from "lucide-react";
 import { Brand } from "../Brand";
@@ -14,6 +15,7 @@ export type AdminSection =
   | "scripts"
   | "create"
   | "executors"
+  | "categories"
   | "settings";
 
 interface AdminSidebarProps {
@@ -28,7 +30,8 @@ const items = [
   { id: "overview" as const, label: "Ringkasan", icon: Gauge },
   { id: "scripts" as const, label: "Kelola Skrip", icon: Files },
   { id: "create" as const, label: "Tambah Skrip", icon: FilePlus2 },
-  { id: "executors" as const, label: "Status Eksekutor", icon: ShieldCheck },
+  { id: "executors" as const, label: "Kelola Eksekutor", icon: ShieldCheck },
+  { id: "categories" as const, label: "Kelola Kategori", icon: Tags },
   { id: "settings" as const, label: "Pengaturan", icon: Settings },
 ];
 

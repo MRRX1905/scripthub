@@ -2,7 +2,6 @@ import type { Session } from "@supabase/supabase-js";
 import {
   CheckCircle2,
   CircleDot,
-  Clock3,
   Database,
   ExternalLink,
   Eye,
@@ -17,7 +16,6 @@ import {
   Search,
   Send,
   Settings,
-  ShieldCheck,
   Trash2,
   X,
 } from "lucide-react";
@@ -37,6 +35,10 @@ import {
   type AdminSection,
 } from "../components/admin/AdminSidebar";
 import { ConfirmDialog } from "../components/admin/ConfirmDialog";
+import {
+  CategoryManager,
+  ExecutorManager,
+} from "../components/admin/ResourceManagers";
 import { ScriptEditor } from "../components/admin/ScriptEditor";
 import { ScriptPreview } from "../components/admin/ScriptPreview";
 import { KeyBadge } from "../components/StatusBadge";
@@ -48,18 +50,21 @@ import {
 } from "../lib/admin";
 import { assetUrl } from "../lib/assets";
 import {
+  deleteCategory,
+  deleteExecutor,
   fetchRealtimeContent,
   removeScript,
+  saveCategory,
+  saveExecutor,
   subscribeToContent,
-  upsertExecutors,
   upsertScript,
 } from "../lib/content";
 import { formatDate, formatNumber } from "../lib/format";
 import { adminUsername } from "../lib/supabase";
 import type {
+  CategoryItem,
   ContentData,
   ExecutorItem,
-  ExecutorState,
   ScriptItem,
 } from "../types";
 
@@ -148,24 +153,29 @@ export function AdminPage({
     }
   };
 
-  const runMutation = async (
-    action: () => Promise<void>,
-    nextContent: ContentData,
-    message: string,
-  ) => {
+  const announceSuccess = useCallback((message: string) => {
+    setSuccess(message);
+    window.setTimeout(() => setSuccess(""), 4000);
+  }, []);
+
+  const runMutation = async (action: () => Promise<void>, message: string) => {
     setSaving(true);
     setError("");
     try {
       await action();
-      applyContent(nextContent);
-      setSuccess(message);
-      window.setTimeout(() => setSuccess(""), 4000);
+      await refresh();
+      announceSuccess(message);
     } catch (reason) {
-      const message =
+      const backendMessage =
         reason instanceof Error
           ? reason.message
-          : "Perubahan gagal disimpan.";
-      setError(message);
+          : typeof reason === "object" &&
+              reason !== null &&
+              "message" in reason &&
+              typeof reason.message === "string"
+            ? reason.message
+            : "Perubahan gagal disimpan.";
+      setError(backendMessage);
       throw reason;
     } finally {
       setSaving(false);
@@ -175,47 +185,44 @@ export function AdminPage({
   const saveScript = async (script: ScriptItem) => {
     if (!content) return;
     const exists = content.scripts.some((item) => item.id === script.id);
-    const nextContent = {
-      ...content,
-      updatedAt: script.updatedAt,
-      scripts: exists
-        ? content.scripts.map((item) =>
-            item.id === script.id ? script : item,
-          )
-        : [script, ...content.scripts],
-    };
     await runMutation(
       () => upsertScript(script),
-      nextContent,
       exists ? "Skrip berhasil diperbarui." : "Skrip berhasil ditambahkan.",
     );
   };
 
   const deleteScript = async (script: ScriptItem) => {
-    if (!content) return;
-    const nextContent = {
-      ...content,
-      updatedAt: new Date().toISOString(),
-      scripts: content.scripts.filter((item) => item.id !== script.id),
-    };
     await runMutation(
       () => removeScript(script.id),
-      nextContent,
       "Skrip berhasil dihapus dari website.",
     );
   };
 
-  const saveExecutors = async (items: ExecutorItem[]) => {
-    if (!content) return;
-    const timestamp = new Date().toISOString();
-    const executors = items.map((item) => ({
-      ...item,
-      updatedAt: timestamp,
-    }));
+  const saveExecutorItem = async (item: ExecutorItem) => {
     await runMutation(
-      () => upsertExecutors(executors),
-      { ...content, executors, updatedAt: timestamp },
-      "Status eksekutor berhasil diperbarui.",
+      () => saveExecutor(item),
+      "Eksekutor berhasil disimpan dan disinkronkan.",
+    );
+  };
+
+  const deleteExecutorItem = async (item: ExecutorItem) => {
+    await runMutation(
+      () => deleteExecutor(item.id),
+      "Eksekutor berhasil dihapus.",
+    );
+  };
+
+  const saveCategoryItem = async (item: CategoryItem) => {
+    await runMutation(
+      () => saveCategory(item),
+      "Kategori berhasil disimpan dan disinkronkan.",
+    );
+  };
+
+  const deleteCategoryItem = async (item: CategoryItem) => {
+    await runMutation(
+      () => deleteCategory(item.id),
+      "Kategori berhasil dihapus.",
     );
   };
 
@@ -256,8 +263,11 @@ export function AdminPage({
       onDismissError={() => setError("")}
       onSaveScript={saveScript}
       onDeleteScript={deleteScript}
-      onSaveExecutors={saveExecutors}
-      onSuccess={setSuccess}
+      onSaveExecutor={saveExecutorItem}
+      onDeleteExecutor={deleteExecutorItem}
+      onSaveCategory={saveCategoryItem}
+      onDeleteCategory={deleteCategoryItem}
+      onSuccess={announceSuccess}
       onLogout={() => void logout()}
     />
   );
@@ -272,7 +282,10 @@ interface AdminDashboardProps {
   onDismissError: () => void;
   onSaveScript: (script: ScriptItem) => Promise<void>;
   onDeleteScript: (script: ScriptItem) => Promise<void>;
-  onSaveExecutors: (items: ExecutorItem[]) => Promise<void>;
+  onSaveExecutor: (item: ExecutorItem) => Promise<void>;
+  onDeleteExecutor: (item: ExecutorItem) => Promise<void>;
+  onSaveCategory: (item: CategoryItem) => Promise<void>;
+  onDeleteCategory: (item: CategoryItem) => Promise<void>;
   onSuccess: (message: string) => void;
   onLogout: () => void;
 }
@@ -286,7 +299,10 @@ function AdminDashboard({
   onDismissError,
   onSaveScript,
   onDeleteScript,
-  onSaveExecutors,
+  onSaveExecutor,
+  onDeleteExecutor,
+  onSaveCategory,
+  onDeleteCategory,
   onSuccess,
   onLogout,
 }: AdminDashboardProps) {
@@ -302,6 +318,8 @@ function AdminDashboard({
     if (next === "create") {
       setEditingScript(null);
       setDrawerOpen(true);
+    } else {
+      setDrawerOpen(false);
     }
     setSection(next);
   };
@@ -398,9 +416,19 @@ function AdminDashboard({
           ) : null}
           {section === "executors" ? (
             <ExecutorManager
-              content={content}
+              items={content.executors}
               saving={saving}
-              onSave={onSaveExecutors}
+              onSave={onSaveExecutor}
+              onDelete={onDeleteExecutor}
+            />
+          ) : null}
+          {section === "categories" ? (
+            <CategoryManager
+              items={content.categories}
+              scripts={content.scripts}
+              saving={saving}
+              onSave={onSaveCategory}
+              onDelete={onDeleteCategory}
             />
           ) : null}
           {section === "settings" ? (
@@ -416,6 +444,7 @@ function AdminDashboard({
       <ScriptEditor
         script={editingScript}
         executors={content.executors}
+        categories={content.categories}
         knownSlugs={content.scripts.map((script) => script.slug)}
         open={drawerOpen}
         saving={saving}
@@ -775,115 +804,6 @@ function ScriptManager({
           Menampilkan {filtered.length} dari {content.scripts.length} skrip
         </div>
       </section>
-    </>
-  );
-}
-
-function ExecutorManager({
-  content,
-  saving,
-  onSave,
-}: {
-  content: ContentData;
-  saving: boolean;
-  onSave: (items: ExecutorItem[]) => Promise<void>;
-}) {
-  const [items, setItems] = useState(() =>
-    content.executors.map((item) => ({ ...item })),
-  );
-
-  useEffect(() => {
-    setItems(content.executors.map((item) => ({ ...item })));
-  }, [content.executors]);
-
-  const update = (
-    id: string,
-    field: keyof ExecutorItem,
-    value: string | number,
-  ) =>
-    setItems((current) =>
-      current.map((item) =>
-        item.id === id ? { ...item, [field]: value } : item,
-      ),
-    );
-
-  const save = async () => {
-    await onSave(items);
-  };
-
-  return (
-    <>
-      <div className="admin-page-heading">
-        <div>
-          <p>Status Eksekutor</p>
-          <h1>Kompatibilitas Publik</h1>
-          <span>Perbarui status dan jumlah skrip kompatibel.</span>
-        </div>
-        <button
-          className="button button--primary"
-          type="button"
-          onClick={() => void save()}
-          disabled={saving}
-        >
-          <ShieldCheck size={17} aria-hidden="true" />
-          {saving ? "Menyimpan…" : "Simpan Status"}
-        </button>
-      </div>
-      <div className="executor-admin-grid">
-        {items.map((executor) => (
-          <article key={executor.id}>
-            <div className="executor-admin-grid__heading">
-              <div>
-                <h2>{executor.name}</h2>
-                <p>{executor.platforms.join(" / ")}</p>
-              </div>
-              <ShieldCheck size={21} aria-hidden="true" />
-            </div>
-            <label>
-              Status
-              <select
-                value={executor.status}
-                onChange={(event) =>
-                  update(
-                    executor.id,
-                    "status",
-                    event.target.value as ExecutorState,
-                  )
-                }
-              >
-                <option value="online">Online</option>
-                <option value="updated">Updated</option>
-                <option value="maintenance">Maintenance</option>
-              </select>
-            </label>
-            <label>
-              Jumlah skrip kompatibel
-              <input
-                type="number"
-                min="0"
-                value={executor.compatibleScripts}
-                onChange={(event) =>
-                  update(
-                    executor.id,
-                    "compatibleScripts",
-                    Number(event.target.value),
-                  )
-                }
-              />
-            </label>
-            <label>
-              Deskripsi
-              <textarea
-                rows={4}
-                value={executor.description}
-                onChange={(event) =>
-                  update(executor.id, "description", event.target.value)
-                }
-              />
-            </label>
-          </article>
-        ))}
-      </div>
     </>
   );
 }

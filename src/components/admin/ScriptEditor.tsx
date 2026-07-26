@@ -2,14 +2,24 @@ import {
   Check,
   FileCode2,
   Image,
+  Link2,
   Save,
   Upload,
   X,
 } from "lucide-react";
-import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from "react";
+import {
+  ChangeEvent,
+  FormEvent,
+  Fragment,
+  useEffect,
+  useId,
+  useMemo,
+  useState,
+} from "react";
 import { assetUrl } from "../../lib/assets";
 import { slugify } from "../../lib/format";
 import type {
+  CategoryItem,
   ExecutorItem,
   KeySystem,
   ScriptItem,
@@ -18,6 +28,7 @@ import type {
 interface ScriptEditorProps {
   script: ScriptItem | null;
   executors: ExecutorItem[];
+  categories: CategoryItem[];
   knownSlugs: string[];
   open: boolean;
   saving: boolean;
@@ -25,16 +36,17 @@ interface ScriptEditorProps {
   onSave: (script: ScriptItem) => Promise<void>;
 }
 
-const emptyScript = (): ScriptItem => ({
+const emptyScript = (category = "Lainnya"): ScriptItem => ({
   id: "",
   slug: "",
   title: "",
   game: "",
-  category: "Auto Farm",
+  category,
   summary: "",
   description: "",
   features: [],
   keySystem: "no-key",
+  keyUrl: "",
   executors: [],
   thumbnail: "",
   scriptCode: "",
@@ -47,24 +59,47 @@ const emptyScript = (): ScriptItem => ({
 export function ScriptEditor({
   script,
   executors,
+  categories,
   knownSlugs,
   open,
   saving,
   onClose,
   onSave,
 }: ScriptEditorProps) {
-  const [form, setForm] = useState<ScriptItem>(emptyScript);
+  const [form, setForm] = useState<ScriptItem>(() =>
+    emptyScript(categories[0]?.name),
+  );
   const [featureText, setFeatureText] = useState("");
   const [error, setError] = useState("");
+  const drawerTitleId = useId();
   const isEditing = Boolean(script);
   const originalSlug = script?.slug || "";
 
   useEffect(() => {
-    const value = script ? structuredClone(script) : emptyScript();
+    const value = script
+      ? structuredClone(script)
+      : emptyScript(categories[0]?.name);
     setForm(value);
     setFeatureText(value.features.join("\n"));
     setError("");
   }, [script, open]);
+
+  useEffect(() => {
+    if (!open) return;
+
+    const previousOverflow = document.body.style.overflow;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClose();
+    };
+
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", closeOnEscape);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [onClose, open]);
 
   const imagePreview = useMemo(
     () => (form.thumbnail ? assetUrl(form.thumbnail) : ""),
@@ -116,6 +151,18 @@ export function ScriptEditor({
       setError("Pilih minimal satu eksekutor kompatibel.");
       return;
     }
+    const keyUrl = form.keyUrl?.trim() || "";
+    if (form.keySystem === "key-required") {
+      try {
+        const parsedUrl = new URL(keyUrl);
+        if (!["http:", "https:"].includes(parsedUrl.protocol)) {
+          throw new Error();
+        }
+      } catch {
+        setError("Link key wajib berupa URL http atau https yang valid.");
+        return;
+      }
+    }
 
     const nextScript: ScriptItem = {
       ...form,
@@ -125,6 +172,7 @@ export function ScriptEditor({
         .split("\n")
         .map((item) => item.trim())
         .filter(Boolean),
+      keyUrl: form.keySystem === "key-required" ? keyUrl : "",
       verifiedByAdmin: form.published,
       updatedAt: new Date().toISOString(),
     };
@@ -133,14 +181,27 @@ export function ScriptEditor({
   };
 
   return (
-    <div
-      className={`editor-drawer ${open ? "editor-drawer--open" : ""}`}
-      aria-hidden={!open}
-    >
+    <Fragment>
+      {open ? (
+        <button
+          className="editor-drawer__backdrop"
+          type="button"
+          aria-label="Tutup editor"
+          onClick={onClose}
+        />
+      ) : null}
+      <aside
+        className={`editor-drawer ${open ? "editor-drawer--open" : ""}`}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={drawerTitleId}
+        aria-hidden={!open}
+        inert={!open}
+      >
       <div className="editor-drawer__header">
         <div>
           <p>{isEditing ? "Perbarui konten" : "Konten baru"}</p>
-          <h2>{isEditing ? "Edit Skrip" : "Tambah Skrip"}</h2>
+          <h2 id={drawerTitleId}>{isEditing ? "Edit Skrip" : "Tambah Skrip"}</h2>
         </div>
         <button
           className="icon-button"
@@ -174,15 +235,15 @@ export function ScriptEditor({
           <label>
             Kategori
             <select
+              required
               value={form.category}
               onChange={(event) => update("category", event.target.value)}
             >
-              <option>Auto Farm</option>
-              <option>Combat</option>
-              <option>Utility</option>
-              <option>ESP</option>
-              <option>Teleport</option>
-              <option>Lainnya</option>
+              {categories.map((category) => (
+                <option key={category.id} value={category.name}>
+                  {category.name}
+                </option>
+              ))}
             </select>
           </label>
         </div>
@@ -258,6 +319,25 @@ export function ScriptEditor({
             ))}
           </div>
         </fieldset>
+        {form.keySystem === "key-required" ? (
+          <label>
+            Link untuk mendapatkan key
+            <span className="input-with-icon">
+              <Link2 size={16} aria-hidden="true" />
+              <input
+                required
+                type="url"
+                inputMode="url"
+                value={form.keyUrl || ""}
+                onChange={(event) => update("keyUrl", event.target.value)}
+                placeholder="https://contoh.com/get-key"
+              />
+            </span>
+            <small className="field-hint">
+              Hanya tampil untuk skrip yang memerlukan key.
+            </small>
+          </label>
+        ) : null}
         <fieldset>
           <legend>Kompatibilitas Eksekutor</legend>
           <div className="checkbox-grid">
@@ -348,6 +428,7 @@ export function ScriptEditor({
           </button>
         </div>
       </form>
-    </div>
+      </aside>
+    </Fragment>
   );
 }

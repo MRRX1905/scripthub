@@ -5,7 +5,9 @@ import {
   ChevronLeft,
   Copy,
   Eye,
+  ExternalLink,
   Gamepad2,
+  KeyRound,
   ShieldAlert,
   Terminal,
 } from "lucide-react";
@@ -146,6 +148,32 @@ export function ScriptDetailPage({
         </div>
 
         <aside className="detail-sidebar">
+          {script.keySystem === "key-required" ? (
+            <section className="detail-panel key-link-panel">
+              <KeyRound size={24} aria-hidden="true" />
+              <div>
+                <h2>Dapatkan Key</h2>
+                <p>
+                  Skrip ini memerlukan key sebelum dapat dijalankan.
+                </p>
+              </div>
+              {script.keyUrl ? (
+                <a
+                  className="button button--primary"
+                  href={script.keyUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Buka Link Key
+                  <ExternalLink size={16} aria-hidden="true" />
+                </a>
+              ) : (
+                <span className="key-link-panel__missing">
+                  Link key belum ditambahkan admin.
+                </span>
+              )}
+            </section>
+          ) : null}
           <section className="detail-panel">
             <div className="panel-heading">
               <h2>Eksekutor Kompatibel</h2>

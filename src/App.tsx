@@ -5,6 +5,7 @@ import {
   fetchRealtimeContent,
   subscribeToContent,
 } from "./lib/content";
+import { slugify } from "./lib/format";
 import { routePath, useHashLocation } from "./lib/router";
 import { isSupabaseConfigured } from "./lib/supabase";
 import { AboutPage } from "./pages/AboutPage";
@@ -31,7 +32,26 @@ export function App() {
         { cache: "no-cache" },
       );
       if (!response.ok) throw new Error("Konten tidak dapat dimuat.");
-      return (await response.json()) as ContentData;
+      const data = (await response.json()) as ContentData;
+      const categories =
+        data.categories?.length
+          ? data.categories
+          : Array.from(new Set(data.scripts.map((script) => script.category)))
+              .sort()
+              .map((name) => ({
+                id: slugify(name),
+                name,
+                updatedAt: data.updatedAt,
+              }));
+
+      return {
+        ...data,
+        scripts: data.scripts.map((script) => ({
+          ...script,
+          keyUrl: script.keyUrl || "",
+        })),
+        categories,
+      };
     };
 
     const initialRequest = isSupabaseConfigured

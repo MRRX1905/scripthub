@@ -11,6 +11,7 @@ export interface ScriptItem {
   description: string;
   features: string[];
   keySystem: KeySystem;
+  keyUrl?: string;
   executors: string[];
   thumbnail: string;
   scriptCode: string;
@@ -30,11 +31,18 @@ export interface ExecutorItem {
   updatedAt: string;
 }
 
+export interface CategoryItem {
+  id: string;
+  name: string;
+  updatedAt: string;
+}
+
 export interface ContentData {
   version: number;
   updatedAt: string;
   scripts: ScriptItem[];
   executors: ExecutorItem[];
+  categories: CategoryItem[];
 }
 
 export interface GitHubConnection {
