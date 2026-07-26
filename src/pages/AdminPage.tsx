@@ -34,6 +34,7 @@ import {
   AdminSidebar,
   type AdminSection,
 } from "../components/admin/AdminSidebar";
+import { AdminAnalytics } from "../components/admin/AdminAnalytics";
 import { ConfirmDialog } from "../components/admin/ConfirmDialog";
 import {
   CategoryManager,
@@ -306,7 +307,7 @@ function AdminDashboard({
   onSuccess,
   onLogout,
 }: AdminDashboardProps) {
-  const [section, setSection] = useState<AdminSection>("scripts");
+  const [section, setSection] = useState<AdminSection>("overview");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [editingScript, setEditingScript] = useState<ScriptItem | null>(null);
@@ -519,6 +520,7 @@ function AdminOverview({
         published={published}
         drafts={content.scripts.length - published}
       />
+      <AdminAnalytics />
       <section className="admin-panel">
         <div className="admin-panel__heading">
           <div>

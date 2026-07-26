@@ -45,6 +45,34 @@ export interface ContentData {
   categories: CategoryItem[];
 }
 
+export interface AnalyticsDailyPoint {
+  date: string;
+  views: number;
+  visitors: number;
+}
+
+export interface TrendingScriptItem {
+  id: string;
+  slug: string;
+  title: string;
+  game: string;
+  thumbnail: string;
+  views7d: number;
+  visitors7d: number;
+  viewsTotal: number;
+}
+
+export interface AnalyticsDashboardData {
+  totalViews: number;
+  uniqueVisitors: number;
+  viewsToday: number;
+  visitorsToday: number;
+  activeVisitors: number;
+  daily: AnalyticsDailyPoint[];
+  trending: TrendingScriptItem[];
+  updatedAt: string;
+}
+
 export interface GitHubConnection {
   owner: string;
   repo: string;

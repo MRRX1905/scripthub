@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { PublicFooter } from "./components/PublicFooter";
 import { PublicHeader } from "./components/PublicHeader";
+import { trackPublicPageView } from "./lib/analytics";
 import {
   fetchRealtimeContent,
   subscribeToContent,
@@ -99,6 +100,19 @@ export function App() {
     const main = document.querySelector("main");
     main?.focus({ preventScroll: true });
   }, [path]);
+
+  const trackedScriptId = path.startsWith("/skrip/")
+    ? content?.scripts.find(
+        (script) =>
+          script.published && script.slug === path.replace("/skrip/", ""),
+      )?.id
+    : undefined;
+  const contentReady = content !== null;
+
+  useEffect(() => {
+    if (!contentReady || path.startsWith("/admin")) return;
+    trackPublicPageView(path, trackedScriptId);
+  }, [contentReady, path, trackedScriptId]);
 
   if (path === "/admin") {
     return (
